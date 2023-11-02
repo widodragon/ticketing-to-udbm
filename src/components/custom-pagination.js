@@ -1,5 +1,6 @@
 import { CircularProgress, TablePagination } from "@mui/material";
 import React from "react";
+import { thousandSeparator } from "../utils/thousand-separator";
 
 const CustomPagination = ({
   countLoading = true,
@@ -50,13 +51,5 @@ const CustomPagination = ({
     />
   );
 };
-
-const thousandSeparator = (value) => {
-  if (value === "" || value === undefined || value === null) {
-    return "";
-  } else {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
-}
 
 export default CustomPagination;
