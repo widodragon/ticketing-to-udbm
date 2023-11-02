@@ -1,3 +1,4 @@
+import React from "react"
 import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material"
 import InputField from "../components/Input-field"
 import SelectField from "../components/select-field"
@@ -5,7 +6,6 @@ import DatePickerField from "../components/datepicker-field"
 import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
-import React from "react"
 
 const LaporanPedagangAktif = () => {
     return (
