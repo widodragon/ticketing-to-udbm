@@ -1,6 +1,5 @@
 import React from "react"
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
-import React from "react";
 
 const SelectField = ({
     label,
