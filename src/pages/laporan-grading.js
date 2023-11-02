@@ -15,11 +15,11 @@ const LaporanGrading = ({
     const [ouCode, setOuCode] = useState("")
     useEffect(() => {
         let merchantArr = [];
-        merchantData?.map((item) => {
+        merchantData.map((item) => {
             merchantArr.push({
                 ...item,
-                label: item?.ouName,
-                value: item?.ouCode
+                label: item.ouName,
+                value: item.ouCode
             })
         })
         setMerchantOption(merchantArr);
