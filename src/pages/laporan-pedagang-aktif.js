@@ -7,14 +7,16 @@ import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 
-const LaporanPedagangAktif = () => {
+const LaporanPedagangAktif = ({
+    label = "Transaction History"
+}) => {
     return (
         <Stack direction={"column"} p={"2rem"}>
             <Card sx={{ minWidth: 275 }}>
                 <CardContent sx={{ p: "2rem" }}>
                     <Box display="flex" flexDirection="column">
                         <Typography variant="h4" fontWeight="600">
-                            Transaction History
+                            {label}
                         </Typography>
                         <Stack display="flex" direction="column" mt={"2rem"} gap={2}>
                             <Box sx={{
