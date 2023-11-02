@@ -111,11 +111,11 @@ const LaporanWajibRetribusi = ({
     };
     useEffect(() => {
         let merchantArr = [];
-        merchantData?.map((item) => {
+        merchantData.map((item) => {
             merchantArr.push({
                 ...item,
-                label: item?.ouName,
-                value: item?.ouCode
+                label: item.ouName,
+                value: item.ouCode
             })
         })
         setMerchantOption(merchantArr);
@@ -125,7 +125,7 @@ const LaporanWajibRetribusi = ({
         limitDt,
         offsetDt
     }) => {
-        let ouCodeValue = ouCode?.value || ""
+        let ouCodeValue = ouCode.value || ""
         let countResult = 0;
         let data = {
             "outletCode": [
@@ -150,8 +150,8 @@ const LaporanWajibRetribusi = ({
             setCount(countResult)
         })
         getAccountDetailList(data).then((res) => {
-            if (res?.result) {
-                setData(res?.result)
+            if (res.result) {
+                setData(res.result)
             } else {
                 setDisableNext(true);
                 setData([]);
