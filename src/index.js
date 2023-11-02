@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import LaporanPedagangAktif from './pages/laporan-pedagang-aktif';
+import LaporanWajibRetribusi from './pages/laporan-wajib-retribusi';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LaporanPedagangAktif />
+    <LaporanWajibRetribusi />
   </React.StrictMode>
 );
 

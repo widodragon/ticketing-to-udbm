@@ -1,15 +1,29 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material"
-import InputField from "../components/Input-field"
 import SelectField from "../components/select-field"
 import DatePickerField from "../components/datepicker-field"
 import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
+import { merchant_data } from "../data/merchant";
 
-const LaporanPedagangAktif = ({
-    label = "Transaction History"
+const LaporanGrading = ({
+    label = "Laporan Grading",
+    merchantData = merchant_data
 }) => {
+    const [merchantOption, setMerchantOption] = useState([])
+    const [ouCode, setOuCode] = useState("")
+    useEffect(() => {
+        let merchantArr = [];
+        merchantData?.map((item) => {
+            merchantArr.push({
+                ...item,
+                label: item?.ouName,
+                value: item?.ouCode
+            })
+        })
+        setMerchantOption(merchantArr);
+    }, [merchantData]);
     return (
         <Stack direction={"column"} p={"2rem"}>
             <Card sx={{ minWidth: 275 }}>
@@ -21,55 +35,20 @@ const LaporanPedagangAktif = ({
                         <Stack display="flex" direction="column" mt={"2rem"} gap={2}>
                             <Box sx={{
                                 display: "grid",
-                                gridTemplateColumns: ["repeat(1, 1fr)", "repeat(4, 1fr)"],
+                                gridTemplateColumns: ["repeat(1, 1fr)", "repeat(2, 1fr)"],
                                 gap: 2
                             }}>
                                 <SelectField
                                     label={"Merchant"}
                                     placeholder="All Merchant"
                                     sx={{ width: "100%", fontSize: "16px" }}
-                                />
-                                <SelectField
-                                    label={"Payment Method"}
-                                    placeholder="All Payment Method"
-                                    sx={{ width: "100%", fontSize: "16px" }}
+                                    data={merchantOption}
+                                    selectedValue={ouCode}
+                                    setValue={setOuCode}
                                 />
                                 <DatePickerField
-                                    label={"Date Range"}
-                                    placeholder="All Payment Method"
-                                    sx={{ width: "100%", fontSize: "16px" }}
-                                />
-                                <DatePickerField
-                                    label={""}
-                                    placeholder="All Payment Method"
-                                    sx={{ width: "100%", fontSize: "16px" }}
-                                />
-                            </Box>
-                            <Box sx={{
-                                display: "grid",
-                                gridTemplateColumns: ["repeat(1, 1fr)", "repeat(4, 1fr)"],
-                                gap: 2,
-                                mt: 1
-                            }}>
-                                <SelectField
-                                    label={"Product"}
-                                    placeholder="All Category"
-                                    sx={{ width: "100%", fontSize: "16px" }}
-                                />
-                                <InputField
-                                    label={"Document ID"}
-                                    placeholder="Fill in Document ID"
-                                    onChange={(e) => {
-
-                                    }}
-                                    sx={{ width: "100%", fontSize: "16px" }}
-                                />
-                                <InputField
-                                    label={"Merchant ID"}
-                                    placeholder="Fill in Merchant ID"
-                                    onChange={(e) => {
-
-                                    }}
+                                    label={"Periode"}
+                                    placeholder="Input Periode"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                 />
                             </Box>
@@ -93,4 +72,4 @@ const LaporanPedagangAktif = ({
     )
 }
 
-export default LaporanPedagangAktif
+export default LaporanGrading
