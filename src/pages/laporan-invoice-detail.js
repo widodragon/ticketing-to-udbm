@@ -13,7 +13,7 @@ import { thousandSeparator } from "../utils/thousand-separator";
 import moment from "moment";
 
 const LaporanInvoiceDetail = ({
-    label = "Laporan Invoice",
+    label = "Laporan Invoice Detail",
     merchantData = merchant_data,
     setLoading = () => { },
     notify = () => { }
