@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react"
 import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material"
 import SelectField from "../components/select-field"
-import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
-import { merchant_data } from "../data/merchant";
 import { getAccountDetailList, getAccountDetailMetadata } from "../services/retribusi";
 import CustomTable from "../components/custom-table";
 import CustomPagination from "../components/custom-pagination";
+import FilterMessageNote from "../components/filter-message-note";
+import CustomButton from "../components/custom-button";
 
 const LaporanWajibRetribusi = ({
     label = "Laporan Wajib Retribusi",
-    merchantData = merchant_data,
+    titleInfo = "To Display Specific Transactions, Use the Filters Above.",
+    subTitleInfo = [],
+    merchantData = [],
     setLoading = () => { },
-    notify = () => { }
+    notify = () => { },
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
     const [ouCode, setOuCode] = useState("")
@@ -111,6 +113,7 @@ const LaporanWajibRetribusi = ({
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
     };
+
     useEffect(() => {
         let merchantArr = [];
         merchantData.map((item) => {
@@ -152,6 +155,7 @@ const LaporanWajibRetribusi = ({
         getAccountDetailList(data).then((res) => {
             if (res.result) {
                 setData(res.result)
+                notify("Success Get Data List", "success");
             } else {
                 setDisableNext(true);
                 setData([]);
@@ -212,18 +216,22 @@ const LaporanWajibRetribusi = ({
                                 />
                             </Box>
                         </Stack>
-                        <Stack direction={["column", "row"]} gap={2} alignItems={["end", "inherit"]} justifyContent="space-between" mt={5}>
-                            <Box sx={{ py: 2, px: 5, bgcolor: "#f3f5f8", borderRadius: "15px", display: "flex", alignItems: "center", gap: 1 }}>
-                                <InfoIcon sx={{ fontSize: "16px", color: "#4e91d0" }} />
-                                <Typography variant="p" fontWeight="600" color="#677489">
-                                    To Display Specific Transactions, Use the Filters Above.
-                                </Typography>
-                            </Box>
-                            <Box sx={{ display: "flex", alignItems: "center", gap: 1, justifyContent: "center" }}>
-                                {/* <Button sx={{ bgcolor: "green" }} startIcon={<FileOpenIcon />} variant="contained">Export Excel</Button> */}
-                                <Button disabled={!ouCode ? true : false} onClick={() => handleGetListAccountDetail({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })} startIcon={<SearchIcon />} variant="contained">Filter</Button>
-                            </Box>
-                        </Stack>
+                        <div className="flex flex-col md:flex-row items-end md:items-center gap-3 justify-between mt-8">
+                            <FilterMessageNote
+                                className="w-full md:w-1/2"
+                                title={titleInfo}
+                                subtitle={subTitleInfo}
+                            />
+                            <div className=" flex gap-3">
+                                <CustomButton
+                                    onClick={() => handleGetListAccountDetail({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
+                                    startIcon={<SearchIcon size="14px" />}
+                                    name="Filter"
+                                >
+                                    Filter
+                                </CustomButton>
+                            </div>
+                        </div>
                         <Box sx={{ width: "100%", mt: 10 }}>
                             <CustomPagination
                                 disableNext={disableNext}
