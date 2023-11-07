@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material"
+import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
 import SelectField from "../components/select-field"
 import DatePickerField from "../components/datepicker-field"
 import SearchIcon from '@mui/icons-material/Search';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
+import '../index.css';
 import CustomPagination from "../components/custom-pagination";
 import CustomTable from "../components/custom-table";
 import { getInvoiceDetailList, getInvoiceDetailMetadata } from "../services/invoice-detail";

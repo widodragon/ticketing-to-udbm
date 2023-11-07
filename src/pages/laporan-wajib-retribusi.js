@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material"
+import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
 import SelectField from "../components/select-field"
 import SearchIcon from '@mui/icons-material/Search';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
+import '../index.css';
 import { getAccountDetailList, getAccountDetailMetadata } from "../services/retribusi";
 import CustomTable from "../components/custom-table";
 import CustomPagination from "../components/custom-pagination";
