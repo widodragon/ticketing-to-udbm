@@ -3,7 +3,6 @@ import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
 import SelectField from "../components/select-field"
 import DatePickerField from "../components/datepicker-field"
 import SearchIcon from '@mui/icons-material/Search';
-import '../index.css';
 import CustomPagination from "../components/custom-pagination";
 import CustomTable from "../components/custom-table";
 import { getInvoiceDetailList, getInvoiceDetailMetadata } from "../services/invoice-detail";
@@ -176,13 +175,26 @@ const LaporanInvoiceDetail = ({
                                 />
                             </Box>
                         </Stack>
-                        <div className="flex flex-col md:flex-row items-end md:items-center gap-3 justify-between mt-8">
+                        <Stack sx={{
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: ["column", "row"],
+                            alignItems: ["end", "center"],
+                            gap: 3,
+                            justifyContent: "space-between",
+                            mt: 8
+                        }}>
                             <FilterMessageNote
-                                className="w-full md:w-1/2"
+                                sx={{
+                                    width: ["100%", "50%"]
+                                }}
                                 title={titleInfo}
                                 subtitle={subTitleInfo}
                             />
-                            <div className=" flex gap-3">
+                            <div style={{
+                                display: "flex",
+                                gap: 3
+                            }}>
                                 <CustomButton
                                     onClick={() => handleGetListInvoice({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
                                     startIcon={<SearchIcon size="14px" />}
@@ -191,7 +203,7 @@ const LaporanInvoiceDetail = ({
                                     Filter
                                 </CustomButton>
                             </div>
-                        </div>
+                        </Stack>
                         <Box sx={{ width: "100%", mt: 10 }}>
                             <CustomPagination
                                 disableNext={disableNext}

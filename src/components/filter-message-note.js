@@ -1,9 +1,9 @@
 import React from "react";
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert, AlertTitle, Box, Typography } from "@mui/material";
 
 const FilterMessageNote = ({
   width = "100%",
-  className = " w-1/2",
+  sx = {},
   backgroundColor = "#F2F5F9",
   color = "#64748B",
   borderRadius = 3,
@@ -13,7 +13,10 @@ const FilterMessageNote = ({
   subtitle = [],
 }) => {
   return (
-    <div className={className}>
+    <Box sx={{
+      width: "50%",
+      ...sx
+    }}>
       <Alert
         sx={{
           width: width,
@@ -24,14 +27,22 @@ const FilterMessageNote = ({
         }}
         severity={severity}
       >
-        <span className=" py-0 font-bold">{title}</span>
+        <Typography py={0} fontWeight="bold">{title}</Typography>
         {subtitle.map((item, index) => (
-          <li key={index} className=" ml-1 text-md py-0">
+          <li
+            key={index}
+            style={{
+              marginLeft: "4px",
+              fontSize: "14px",
+              paddingTop: 0,
+              paddingBottom: 0
+            }}
+          >
             {item}
           </li>
         ))}
       </Alert>
-    </div>
+    </Box>
   );
 };
 
