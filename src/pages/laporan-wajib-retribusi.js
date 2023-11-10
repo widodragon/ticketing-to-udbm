@@ -15,6 +15,7 @@ const LaporanWajibRetribusi = ({
     merchantData = [],
     setLoading = () => { },
     notify = () => { },
+    buttomFilter = "Search"
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
     const [ouCode, setOuCode] = useState("")
@@ -154,7 +155,7 @@ const LaporanWajibRetribusi = ({
         getAccountDetailList(data).then((res) => {
             if (res.result) {
                 setData(res.result)
-                notify("Success Get Data List", "success");
+                notify(res?.message || "Success Get Data List", "success");
             } else {
                 setDisableNext(true);
                 setData([]);
@@ -165,7 +166,7 @@ const LaporanWajibRetribusi = ({
             setData([]);
             setDisableNext(true);
             setLoading(false)
-            console.log(e)
+            notify(JSON.stringify(e), "error");
         })
     }
 
@@ -193,7 +194,7 @@ const LaporanWajibRetribusi = ({
 
     return (
         <Stack direction={"column"} p={"2rem"}>
-            <Card sx={{ minWidth: 275 }}>
+            <Card sx={{ minWidth: 275, borderRadius: "0.75rem" }}>
                 <CardContent sx={{ p: "2rem" }}>
                     <Box display="flex" flexDirection="column">
                         <Typography variant="h4" fontWeight="600">
@@ -238,7 +239,7 @@ const LaporanWajibRetribusi = ({
                                 <CustomButton
                                     onClick={() => handleGetListAccountDetail({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
                                     startIcon={<SearchIcon size="14px" />}
-                                    name="Filter"
+                                    name={buttomFilter}
                                 >
                                     Filter
                                 </CustomButton>

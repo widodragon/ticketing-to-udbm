@@ -17,7 +17,8 @@ const LaporanInvoice = ({
     subTitleInfo = [],
     merchantData = [],
     setLoading = () => { },
-    notify = () => { }
+    notify = () => { },
+    buttomFilter = "Search"
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
     const [ouCode, setOuCode] = useState("")
@@ -109,7 +110,7 @@ const LaporanInvoice = ({
         })
         getInvoiceList(data).then((res) => {
             if (res.result) {
-                notify("Success Get Data List", "success");
+                notify(res?.message || "Success Get Data List", "success");
                 setData(res.result)
             } else {
                 setDisableNext(true);
@@ -121,7 +122,7 @@ const LaporanInvoice = ({
             setData([]);
             setDisableNext(true);
             setLoading(false);
-            console.log(e)
+            notify(JSON.stringify(e), "error");
         })
     }
     const pageChange = async (value) => {
@@ -146,7 +147,7 @@ const LaporanInvoice = ({
     }, [merchantOption]);
     return (
         <Stack direction={"column"} p={"2rem"}>
-            <Card sx={{ minWidth: 275 }}>
+            <Card sx={{ minWidth: 275, borderRadius: "0.75rem" }}>
                 <CardContent sx={{ p: "2rem" }}>
                     <Box display="flex" flexDirection="column">
                         <Typography variant="h4" fontWeight="600">
@@ -167,10 +168,11 @@ const LaporanInvoice = ({
                                     setValue={setOuCode}
                                 />
                                 <DatePickerField
-                                    label={"Periode"}
-                                    placeholder="Input Periode"
+                                    label={"Year Month"}
+                                    placeholder="MMM YYYY"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                     value={periode}
+                                    format={"MMM YYYY"}
                                     onChange={(newValue) => setPeriode(newValue)}
                                     views={['month', 'year']}
                                 />
@@ -199,7 +201,7 @@ const LaporanInvoice = ({
                                 <CustomButton
                                     onClick={() => handleGetListInvoice({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
                                     startIcon={<SearchIcon size="14px" />}
-                                    name="Filter"
+                                    name={buttomFilter}
                                 >
                                     Filter
                                 </CustomButton>

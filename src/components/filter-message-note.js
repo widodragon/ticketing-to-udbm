@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, AlertTitle, Box, Typography } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 
 const FilterMessageNote = ({
   width = "100%",
@@ -27,13 +27,13 @@ const FilterMessageNote = ({
         }}
         severity={severity}
       >
-        <Typography py={0} fontWeight="bold">{title}</Typography>
+        <Typography fontSize={"0.875rem"} py={0} fontWeight="bold">{title}</Typography>
         {subtitle.map((item, index) => (
           <li
             key={index}
             style={{
               marginLeft: "4px",
-              fontSize: "14px",
+              fontSize: "0.875rem",
               paddingTop: 0,
               paddingBottom: 0
             }}
