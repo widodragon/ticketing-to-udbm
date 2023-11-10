@@ -110,7 +110,7 @@ const LaporanGrading = ({
         })
         getGradingList(data).then((res) => {
             if (res.result) {
-                notify(res?.message || "Success Get Data List", "success");
+                notify(res.message || "Success Get Data List", "success");
                 setData(res.result)
             } else {
                 setDisableNext(true);
