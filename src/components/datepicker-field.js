@@ -19,7 +19,7 @@ const DatePickerField = ({
                 <DatePicker
                     slots={{
                         openPickerIcon: () => {
-                            return <></>
+                            return null;
                         }
                     }}
                     slotProps={{

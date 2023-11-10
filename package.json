@@ -1,6 +1,6 @@
 {
   "name": "ticketing-to-udbm",
-  "version": "0.4.9",
+  "version": "0.5.1",
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.22.15",
