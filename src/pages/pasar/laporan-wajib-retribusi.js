@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
-import SelectField from "../components/select-field"
+import SelectField from "../../components/select-field"
 import SearchIcon from '@mui/icons-material/Search';
-import { getAccountDetailList, getAccountDetailMetadata } from "../services/retribusi";
-import CustomTable from "../components/custom-table";
-import CustomPagination from "../components/custom-pagination";
-import FilterMessageNote from "../components/filter-message-note";
-import CustomButton from "../components/custom-button";
+import { getAccountDetailList, getAccountDetailMetadata } from "../../services/pasar/retribusi";
+import CustomTable from "../../components/custom-table";
+import CustomPagination from "../../components/custom-pagination";
+import FilterMessageNote from "../../components/filter-message-note";
+import CustomButton from "../../components/custom-button";
 
 const LaporanWajibRetribusi = ({
     label = "Laporan Wajib Retribusi",

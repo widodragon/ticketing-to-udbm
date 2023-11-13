@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react"
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
-import SelectField from "../components/select-field"
-import DatePickerField from "../components/datepicker-field"
+import SelectField from "../../components/select-field"
+import DatePickerField from "../../components/datepicker-field"
 import SearchIcon from '@mui/icons-material/Search';
-import CustomPagination from "../components/custom-pagination";
-import CustomTable from "../components/custom-table";
-import { getInvoiceDetailList, getInvoiceDetailMetadata } from "../services/invoice-detail";
+import CustomPagination from "../../components/custom-pagination";
+import CustomTable from "../../components/custom-table";
+import { getGradingList, getGradingMetadata } from "../../services/pasar/grading";
 import moment from "moment";
-import FilterMessageNote from "../components/filter-message-note";
-import CustomButton from "../components/custom-button";
+import FilterMessageNote from "../../components/filter-message-note";
+import CustomButton from "../../components/custom-button";
 
-const LaporanInvoiceDetail = ({
-    label = "Laporan Invoice Detail",
+const LaporanGrading = ({
+    label = "Laporan Grading",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
     merchantData = [],
@@ -28,10 +28,10 @@ const LaporanInvoiceDetail = ({
     const [countLoading, setCountLoading] = useState(false);
     const [disableNext, setDisableNext] = useState(false);
     const [data, setData] = useState([]);
-    const [periode, setPeriode] = useState(null)
+    const [periode, setPeriode] = useState(moment())
     const header = [
         {
-            title: "CORPORATE NAME",
+            title: "MERCHANT NAME",
             value: "corporateName",
             align: "left",
             width: "200px",
@@ -49,8 +49,8 @@ const LaporanInvoiceDetail = ({
             width: "200px",
         },
         {
-            title: "DISTRICT",
-            value: "districtName",
+            title: "GRADE",
+            value: "grade",
             align: "left",
             width: "200px",
         }
@@ -62,8 +62,8 @@ const LaporanInvoiceDetail = ({
             return <span>{item.storeCode}</span>;
         } else if (header.value === "accountName") {
             return <span>{item.accountName}</span>;
-        } else if (header.value === "districtName") {
-            return <span>{item.districtName}</span>;
+        } else if (header.value === "grade") {
+            return <span>{item.grade}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
@@ -79,14 +79,15 @@ const LaporanInvoiceDetail = ({
         })
         setMerchantOption(merchantArr);
     }, [merchantData]);
-    const handleGetListInvoice = ({
+    const handleGetListGrading = ({
         limitDt,
         offsetDt,
         ouCodeValue
     }) => {
         let countResult = 0;
+        let periodeDt = periode ? periode.format("YYYYMM") : moment(Date.now()).format("YYYYMM")
         let data = {
-            "periode": periode ? periode.format("YYYYMM") : moment(Date.now()).format("YYYYMM"),
+            "periode": periodeDt,
             "outletCode": ouCodeValue,
             "limit": limitDt,
             "offset": offsetDt
@@ -94,8 +95,8 @@ const LaporanInvoiceDetail = ({
         setLoading(true);
         setCountLoading(true)
         setOuCodeSelected(ouCodeValue);
-        getInvoiceDetailMetadata({
-            "periode": periode ? periode.format("YYYYMM") : moment(Date.now()).format("YYYYMM"),
+        getGradingMetadata({
+            "periode": periodeDt,
             "outletCode": ouCodeValue
         }).then((res) => {
             countResult = res.result;
@@ -107,7 +108,7 @@ const LaporanInvoiceDetail = ({
             setCountLoading(false);
             setCount(countResult)
         })
-        getInvoiceDetailList(data).then((res) => {
+        getGradingList(data).then((res) => {
             if (res.result) {
                 notify(res.message || "Success Get Data List", "success");
                 setData(res.result)
@@ -127,23 +128,25 @@ const LaporanInvoiceDetail = ({
     const pageChange = async (value) => {
         var ofset = value * limit;
         setOffset(ofset);
-        handleGetListInvoice({ limitDt: limit, offsetDt: offset, ouCodeValue: ouCodeSelected });
+        handleGetListGrading({ limitDt: limit, offsetDt: offset, ouCodeValue: ouCodeSelected });
     };
 
     const rowsChange = async (e) => {
         setOffset(0);
         setLimit(e.props.value);
-        handleGetListInvoice({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected });
+        handleGetListGrading({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected });
     };
+
     useEffect(() => {
         if (merchantOption.length > 0) {
             let ouCodeArr = []
             merchantOption.map((item) => {
                 ouCodeArr.push(item.value)
             })
-            handleGetListInvoice({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
+            handleGetListGrading({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
         }
     }, [merchantOption]);
+
     return (
         <Stack direction={"column"} p={"2rem"}>
             <Card sx={{ minWidth: 275, borderRadius: "0.75rem" }}>
@@ -198,7 +201,7 @@ const LaporanInvoiceDetail = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListInvoice({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
+                                    onClick={() => handleGetListGrading({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >
@@ -238,4 +241,4 @@ const LaporanInvoiceDetail = ({
     )
 }
 
-export default LaporanInvoiceDetail
+export default LaporanGrading

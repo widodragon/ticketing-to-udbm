@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react"
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
-import SelectField from "../components/select-field"
-import DatePickerField from "../components/datepicker-field"
+import SelectField from "../../components/select-field"
+import DatePickerField from "../../components/datepicker-field"
 import SearchIcon from '@mui/icons-material/Search';
-import CustomPagination from "../components/custom-pagination";
-import CustomTable from "../components/custom-table";
-import { getInvoiceList, getInvoiceMetadata } from "../services/invoice";
-import { thousandSeparator } from "../utils/thousand-separator";
+import CustomPagination from "../../components/custom-pagination";
+import CustomTable from "../../components/custom-table";
+import { getInvoiceDetailList, getInvoiceDetailMetadata } from "../../services/pasar/invoice-detail";
 import moment from "moment";
-import FilterMessageNote from "../components/filter-message-note";
-import CustomButton from "../components/custom-button";
+import FilterMessageNote from "../../components/filter-message-note";
+import CustomButton from "../../components/custom-button";
 
-const LaporanInvoice = ({
-    label = "Laporan Invoice",
+const LaporanInvoiceDetail = ({
+    label = "Laporan Invoice Detail",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
     merchantData = [],
@@ -29,7 +28,7 @@ const LaporanInvoice = ({
     const [countLoading, setCountLoading] = useState(false);
     const [disableNext, setDisableNext] = useState(false);
     const [data, setData] = useState([]);
-    const [periode, setPeriode] = useState(null)
+    const [periode, setPeriode] = useState(moment())
     const header = [
         {
             title: "CORPORATE NAME",
@@ -38,20 +37,20 @@ const LaporanInvoice = ({
             width: "200px",
         },
         {
-            title: "STORE FEE",
-            value: "amountPerCount",
+            title: "STORE CODE",
+            value: "storeCode",
             align: "left",
             width: "250px",
         },
         {
-            title: "STORE QUANTITY",
-            value: "count",
+            title: "CUSTOMER NAME",
+            value: "accountName",
             align: "left",
             width: "200px",
         },
         {
-            title: "TOTAL INVOICE FEE",
-            value: "amount",
+            title: "DISTRICT",
+            value: "districtName",
             align: "left",
             width: "200px",
         }
@@ -59,12 +58,12 @@ const LaporanInvoice = ({
     const renderCell = (item, header) => {
         if (header.value === "corporateName") {
             return <span>{item.corporateName}</span>;
-        } else if (header.value === "amountPerCount") {
-            return <span>{thousandSeparator(item.amountPerCount)}</span>;
-        } else if (header.value === "count") {
-            return <span>{thousandSeparator(item.count)}</span>;
-        } else if (header.value === "amount") {
-            return <span>{thousandSeparator(item.amount)}</span>;
+        } else if (header.value === "storeCode") {
+            return <span>{item.storeCode}</span>;
+        } else if (header.value === "accountName") {
+            return <span>{item.accountName}</span>;
+        } else if (header.value === "districtName") {
+            return <span>{item.districtName}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
@@ -95,7 +94,7 @@ const LaporanInvoice = ({
         setLoading(true);
         setCountLoading(true)
         setOuCodeSelected(ouCodeValue);
-        getInvoiceMetadata({
+        getInvoiceDetailMetadata({
             "periode": periode ? periode.format("YYYYMM") : moment(Date.now()).format("YYYYMM"),
             "outletCode": ouCodeValue
         }).then((res) => {
@@ -108,7 +107,7 @@ const LaporanInvoice = ({
             setCountLoading(false);
             setCount(countResult)
         })
-        getInvoiceList(data).then((res) => {
+        getInvoiceDetailList(data).then((res) => {
             if (res.result) {
                 notify(res.message || "Success Get Data List", "success");
                 setData(res.result)
@@ -239,4 +238,4 @@ const LaporanInvoice = ({
     )
 }
 
-export default LaporanInvoice
+export default LaporanInvoiceDetail
