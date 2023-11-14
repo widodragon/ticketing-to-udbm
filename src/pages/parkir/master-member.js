@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react"
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
 import SelectField from "../../components/select-field"
-import DatePickerField from "../../components/datepicker-field"
 import SearchIcon from '@mui/icons-material/Search';
-import CustomPagination from "../../components/custom-pagination";
+import { getMemberList, getMemberMetadata } from "../../services/parkir/member";
 import CustomTable from "../../components/custom-table";
-import { getGradingList, getGradingMetadata } from "../../services/pasar/grading";
-import moment from "moment";
+import CustomPagination from "../../components/custom-pagination";
 import FilterMessageNote from "../../components/filter-message-note";
 import CustomButton from "../../components/custom-button";
+import InputField from "../../components/input-field";
+import { merchant_data } from "../../data/merchant"
 
-const LaporanGrading = ({
-    label = "Laporan Grading",
+const MasterMember = ({
+    label = "Member",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
-    merchantData = [],
+    merchantData = merchant_data,
     setLoading = () => { },
     notify = () => { },
     buttomFilter = "Search"
@@ -28,46 +28,94 @@ const LaporanGrading = ({
     const [countLoading, setCountLoading] = useState(false);
     const [disableNext, setDisableNext] = useState(false);
     const [data, setData] = useState([]);
-    const [periode, setPeriode] = useState(moment())
     const header = [
         {
-            title: "MERCHANT NAME",
-            value: "corporateName",
+            title: "KODE MEMBER",
+            value: "partnerCode",
             align: "left",
             width: "200px",
         },
         {
-            title: "STORE CODE",
-            value: "storeCode",
+            title: "NAMA",
+            value: "name",
             align: "left",
             width: "250px",
         },
         {
-            title: "CUSTOMER NAME",
-            value: "accountName",
+            title: "TELP",
+            value: "phoneNumber",
             align: "left",
             width: "200px",
         },
         {
-            title: "GRADE",
-            value: "grade",
+            title: "EMAIL",
+            value: "email",
             align: "left",
             width: "200px",
-        }
+        },
+        {
+            title: "STATUS MEMBER",
+            value: "active",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "ACTIVE AT",
+            value: "activeAt",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "NON ACTIVE AT",
+            value: "nonActiveAt",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "EXT MEMBER ID",
+            value: "extPartnerId",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "DIBUAT",
+            value: "createdBy",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "TANGGAL BUAT",
+            value: "createdAt",
+            align: "left",
+            width: "200px",
+        },
     ]
     const renderCell = (item, header) => {
-        if (header.value === "corporateName") {
-            return <span>{item.corporateName}</span>;
-        } else if (header.value === "storeCode") {
-            return <span>{item.storeCode}</span>;
-        } else if (header.value === "accountName") {
-            return <span>{item.accountName}</span>;
-        } else if (header.value === "grade") {
-            return <span>{item.grade}</span>;
+        if (header.value === "partnerCode") {
+            return <span>{item.partnerCode}</span>;
+        } else if (header.value === "name") {
+            return <span>{item.name}</span>;
+        } else if (header.value === "phoneNumber") {
+            return <span>{item.phoneNumber}</span>;
+        } else if (header.value === "email") {
+            return <span>{item.email}</span>;
+        } else if (header.value === "active") {
+            return <span>{item.active}</span>;
+        } else if (header.value === "activeAt") {
+            return <span>{item.activeAt}</span>;
+        } else if (header.value === "nonActiveAt") {
+            return <span>{item.nonActiveAt}</span>;
+        } else if (header.value === "extPartnerId") {
+            return <span>{item.extPartnerId}</span>;
+        } else if (header.value === "createdBy") {
+            return <span>{item.createdBy}</span>;
+        } else if (header.value === "createdAt") {
+            return <span>{item.createdAt}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
     };
+
     useEffect(() => {
         let merchantArr = [];
         merchantData.map((item) => {
@@ -79,15 +127,18 @@ const LaporanGrading = ({
         })
         setMerchantOption(merchantArr);
     }, [merchantData]);
-    const handleGetListGrading = ({
+
+    const handleGetListMember = ({
         limitDt,
         offsetDt,
         ouCodeValue
     }) => {
         let countResult = 0;
-        let periodeDt = periode ? periode.format("YYYYMM") : moment(Date.now()).format("YYYYMM")
         let data = {
-            "periode": periodeDt,
+            "keyword": "",
+            "ascDesc": "ASC",
+            "statusMember": "",
+            "columnOrderName": "",
             "outletCode": ouCodeValue,
             "limit": limitDt,
             "offset": offsetDt
@@ -95,8 +146,7 @@ const LaporanGrading = ({
         setLoading(true);
         setCountLoading(true)
         setOuCodeSelected(ouCodeValue);
-        getGradingMetadata({
-            "periode": periodeDt,
+        getMemberMetadata({
             "outletCode": ouCodeValue
         }).then((res) => {
             countResult = res.result;
@@ -108,33 +158,35 @@ const LaporanGrading = ({
             setCountLoading(false);
             setCount(countResult)
         })
-        getGradingList(data).then((res) => {
+        getMemberList(data).then((res) => {
             if (res.result) {
-                notify(res.message || "Success Get Data List", "success");
+                console.log(res.result)
                 setData(res.result)
+                notify(res.message || "Success Get Data List", "success");
             } else {
                 setDisableNext(true);
                 setData([]);
                 notify("No Data Found", "warning");
             }
-            setLoading(false);
+            setLoading(false)
         }).catch((e) => {
             setData([]);
             setDisableNext(true);
-            setLoading(false);
-            notify(e.message, "error");
+            setLoading(false)
+            notify(JSON.stringify(e), "error");
         })
     }
+
     const pageChange = async (value) => {
         var ofset = value * limit;
         setOffset(ofset);
-        handleGetListGrading({ limitDt: limit, offsetDt: offset, ouCodeValue: ouCodeSelected });
+        handleGetListMember({ limitDt: limit, offsetDt: offset, ouCodeValue: ouCodeSelected });
     };
 
     const rowsChange = async (e) => {
         setOffset(0);
         setLimit(e.props.value);
-        handleGetListGrading({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected });
+        handleGetListMember({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected });
     };
 
     useEffect(() => {
@@ -143,7 +195,7 @@ const LaporanGrading = ({
             merchantOption.map((item) => {
                 ouCodeArr.push(item.value)
             })
-            handleGetListGrading({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
+            handleGetListMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
         }
     }, [merchantOption]);
 
@@ -169,14 +221,9 @@ const LaporanGrading = ({
                                     selectedValue={ouCode}
                                     setValue={setOuCode}
                                 />
-                                <DatePickerField
-                                    label={"Year Month"}
-                                    placeholder="MMM YYYY"
-                                    sx={{ width: "100%", fontSize: "16px" }}
-                                    value={periode}
-                                    format={"MMM YYYY"}
-                                    onChange={(newValue) => setPeriode(newValue)}
-                                    views={['month', 'year']}
+                                <InputField
+                                    label={"Keyword"}
+                                    placeholder="PSR-PKR-0003, SAM, BUD, ..."
                                 />
                             </Box>
                         </Stack>
@@ -201,7 +248,7 @@ const LaporanGrading = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListGrading({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
+                                    onClick={() => handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >
@@ -241,4 +288,4 @@ const LaporanGrading = ({
     )
 }
 
-export default LaporanGrading
+export default MasterMember
