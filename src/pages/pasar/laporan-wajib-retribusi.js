@@ -173,7 +173,7 @@ const LaporanWajibRetribusi = ({
     const pageChange = async (value) => {
         var ofset = value * limit;
         setOffset(ofset);
-        handleGetListAccountDetail({ limitDt: limit, offsetDt: offset, ouCodeValue: ouCodeSelected });
+        handleGetListAccountDetail({ limitDt: limit, offsetDt: ofset, ouCodeValue: ouCodeSelected });
     };
 
     const rowsChange = async (e) => {

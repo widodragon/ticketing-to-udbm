@@ -9,6 +9,8 @@ import 'moment/locale/id';
 const DatePickerField = ({
     label,
     placeholder,
+    errorMessage = "Merchant wajib diisi",
+    isError = false,
     ...other
 }) => {
     const [open, setOpen] = useState(false)
@@ -41,6 +43,7 @@ const DatePickerField = ({
                     {...other}
                 />
             </LocalizationProvider>
+            <Typography fontSize={12} color="red">{isError && errorMessage}</Typography>
         </Box>
     )
 }

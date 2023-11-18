@@ -156,7 +156,7 @@ const CustomTable = ({
           </StyledTableHeadRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
+          {items.map((item, index) => (
             <StyledTableRow
               style={{ height: bodyHeight }}
               key={keyName ? item[keyName] : item.id}
@@ -182,7 +182,7 @@ const CustomTable = ({
                         borderRight: header.rightBorder ? "1px solid #ccc" : "",
                       }}
                     >
-                      {renderCell(item, header)}
+                      {renderCell(item, header, index)}
                     </StyledTableCellData>
                   )
               )}

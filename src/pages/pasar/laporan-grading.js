@@ -128,7 +128,7 @@ const LaporanGrading = ({
     const pageChange = async (value) => {
         var ofset = value * limit;
         setOffset(ofset);
-        handleGetListGrading({ limitDt: limit, offsetDt: offset, ouCodeValue: ouCodeSelected });
+        handleGetListGrading({ limitDt: limit, offsetDt: ofset, ouCodeValue: ouCodeSelected });
     };
 
     const rowsChange = async (e) => {

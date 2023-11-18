@@ -6,7 +6,10 @@ const SelectField = ({
     placeholder,
     data,
     setValue,
+    required = false,
     selectedValue,
+    errorMessage = "Merchant wajib diisi",
+    isError = false,
     ...other
 }) => {
     const handleChange = (_event, values) => {
@@ -14,7 +17,7 @@ const SelectField = ({
     };
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
-            <Typography color={"gray"} fontWeight={"600"} height={25}>{label}</Typography>
+            <Typography color={"gray"} fontWeight={"600"} height={25}>{label} <span style={{ color: 'red' }}>{`${required ? "*" : ""}`}</span></Typography>
             <Autocomplete
                 disablePortal
                 id="combo-box-demo"
@@ -24,6 +27,7 @@ const SelectField = ({
                 renderInput={(params) => <TextField variant="standard" {...params} placeholder={placeholder} />}
                 {...other}
             />
+            <Typography fontSize={12} color="red">{isError && errorMessage}</Typography>
         </Box>
     )
 }

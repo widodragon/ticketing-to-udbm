@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react"
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
-import SelectField from "../../components/select-field"
-import DatePickerField from "../../components/datepicker-field"
+import SelectField from "../../../components/select-field"
 import SearchIcon from '@mui/icons-material/Search';
-import CustomPagination from "../../components/custom-pagination";
-import CustomTable from "../../components/custom-table";
-import { getInvoiceDetailList, getInvoiceDetailMetadata } from "../../services/pasar/invoice-detail";
-import moment from "moment";
-import FilterMessageNote from "../../components/filter-message-note";
-import CustomButton from "../../components/custom-button";
+import { getMemberList, getMemberMetadata } from "../../../services/parkir/member";
+import CustomTable from "../../../components/custom-table";
+import CustomPagination from "../../../components/custom-pagination";
+import FilterMessageNote from "../../../components/filter-message-note";
+import CustomButton from "../../../components/custom-button";
+import InputField from "../../../components/input-field";
+import { merchant_data } from "../../../data/merchant"
+import AddIcon from '@mui/icons-material/Add';
+import MemberForm from "./forms/member-form";
 
-const LaporanInvoiceDetail = ({
-    label = "Laporan Invoice Detail",
+const MasterMember = ({
+    label = "Member",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
-    merchantData = [],
+    merchantData = merchant_data,
     setLoading = () => { },
     notify = () => { },
-    buttomFilter = "Search"
+    buttomFilter = "Search",
+    buttonAdd = "Tambah Data"
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
     const [ouCode, setOuCode] = useState("")
@@ -27,47 +30,106 @@ const LaporanInvoiceDetail = ({
     const [count, setCount] = useState(-99);
     const [countLoading, setCountLoading] = useState(false);
     const [disableNext, setDisableNext] = useState(false);
+    const [openForm, setOpenForm] = useState(false);
+    const [keyword, setKeyword] = useState("")
     const [data, setData] = useState([]);
-    const [periode, setPeriode] = useState(moment())
     const header = [
         {
-            title: "CORPORATE NAME",
-            value: "corporateName",
+            title: "#",
+            value: "id",
+            align: "left",
+            width: "50px",
+        },
+        {
+            title: "KODE MEMBER",
+            value: "partnerCode",
             align: "left",
             width: "200px",
         },
         {
-            title: "STORE CODE",
-            value: "storeCode",
+            title: "NAMA",
+            value: "name",
             align: "left",
             width: "250px",
         },
         {
-            title: "CUSTOMER NAME",
-            value: "accountName",
+            title: "TELP",
+            value: "phoneNumber",
             align: "left",
             width: "200px",
         },
         {
-            title: "DISTRICT",
-            value: "districtName",
+            title: "EMAIL",
+            value: "email",
             align: "left",
             width: "200px",
-        }
+        },
+        {
+            title: "STATUS MEMBER",
+            value: "active",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "ACTIVE AT",
+            value: "activeAt",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "NON ACTIVE AT",
+            value: "nonActiveAt",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "EXT MEMBER ID",
+            value: "extPartnerId",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "DIBUAT",
+            value: "createdBy",
+            align: "left",
+            width: "200px",
+        },
+        {
+            title: "TANGGAL BUAT",
+            value: "createdAt",
+            align: "left",
+            width: "200px",
+        },
     ]
-    const renderCell = (item, header) => {
-        if (header.value === "corporateName") {
-            return <span>{item.corporateName}</span>;
-        } else if (header.value === "storeCode") {
-            return <span>{item.storeCode}</span>;
-        } else if (header.value === "accountName") {
-            return <span>{item.accountName}</span>;
-        } else if (header.value === "districtName") {
-            return <span>{item.districtName}</span>;
+    const renderCell = (item, header, index) => {
+        if (header.value === "id") {
+            let page = (offset / limit) + 1
+            return <span>{(index + 1) + ((page - 1) * 10)}</span>;
+        } else if (header.value === "partnerCode") {
+            return <span>{item.partnerCode}</span>;
+        } else if (header.value === "name") {
+            return <span>{item.firstName + " " + item.lastName}</span>;
+        } else if (header.value === "phoneNumber") {
+            return <span>{item.phoneNumber}</span>;
+        } else if (header.value === "email") {
+            return <span>{item.email}</span>;
+        } else if (header.value === "active") {
+            return <span>{item.active}</span>;
+        } else if (header.value === "activeAt") {
+            return <span>{item.activeAt}</span>;
+        } else if (header.value === "nonActiveAt") {
+            return <span>{item.nonActiveAt}</span>;
+        } else if (header.value === "extPartnerId") {
+            return <span>{item.extPartnerId}</span>;
+        } else if (header.value === "createdBy") {
+            return <span>{item.createdBy}</span>;
+        } else if (header.value === "createdAt") {
+            return <span>{item.createdAt}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
     };
+
     useEffect(() => {
         let merchantArr = [];
         merchantData.map((item) => {
@@ -79,14 +141,19 @@ const LaporanInvoiceDetail = ({
         })
         setMerchantOption(merchantArr);
     }, [merchantData]);
-    const handleGetListInvoice = ({
+
+    const handleGetListMember = ({
         limitDt,
         offsetDt,
-        ouCodeValue
+        ouCodeValue,
+        keyword
     }) => {
         let countResult = 0;
         let data = {
-            "periode": periode ? periode.format("YYYYMM") : moment(Date.now()).format("YYYYMM"),
+            "keyword": keyword,
+            "ascDesc": "ASC",
+            "statusMember": "",
+            "columnOrderName": "",
             "outletCode": ouCodeValue,
             "limit": limitDt,
             "offset": offsetDt
@@ -94,9 +161,14 @@ const LaporanInvoiceDetail = ({
         setLoading(true);
         setCountLoading(true)
         setOuCodeSelected(ouCodeValue);
-        getInvoiceDetailMetadata({
-            "periode": periode ? periode.format("YYYYMM") : moment(Date.now()).format("YYYYMM"),
-            "outletCode": ouCodeValue
+        getMemberMetadata({
+            "keyword": keyword,
+            "outletCode": ouCodeValue,
+            "statusMember": "",
+            "ascDesc": "ASC",
+            "columnOrderName": "",
+            "limit": 3,
+            "offset": 0
         }).then((res) => {
             countResult = res.result;
             setDisableNext(false);
@@ -107,43 +179,74 @@ const LaporanInvoiceDetail = ({
             setCountLoading(false);
             setCount(countResult)
         })
-        getInvoiceDetailList(data).then((res) => {
+        getMemberList(data).then((res) => {
             if (res.result) {
-                notify(res.message || "Success Get Data List", "success");
                 setData(res.result)
+                notify(res.message || "Success Get Data List", "success");
             } else {
                 setDisableNext(true);
                 setData([]);
                 notify("No Data Found", "warning");
             }
-            setLoading(false);
+            setLoading(false)
         }).catch((e) => {
             setData([]);
             setDisableNext(true);
-            setLoading(false);
-            notify(e.message, "error");
+            setLoading(false)
+            notify(JSON.stringify(e), "error");
         })
     }
+
     const pageChange = async (value) => {
         var ofset = value * limit;
         setOffset(ofset);
-        handleGetListInvoice({ limitDt: limit, offsetDt: ofset, ouCodeValue: ouCodeSelected });
+        handleGetListMember({ limitDt: limit, offsetDt: ofset, ouCodeValue: ouCodeSelected, keyword: keyword });
     };
 
     const rowsChange = async (e) => {
         setOffset(0);
         setLimit(e.props.value);
-        handleGetListInvoice({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected });
+        handleGetListMember({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected, keyword: keyword });
     };
+
     useEffect(() => {
         if (merchantOption.length > 0) {
-            let ouCodeArr = []
-            merchantOption.map((item) => {
-                ouCodeArr.push(item.value)
-            })
-            handleGetListInvoice({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
+            refreshData();
         }
     }, [merchantOption]);
+
+    const refreshData = () => {
+        let ouCodeArr = []
+        merchantOption.map((item) => {
+            ouCodeArr.push(item.value)
+        })
+        handleGetListMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr, keyword: keyword })
+    }
+
+    if (openForm) {
+        return (
+            <Stack direction={"column"} p={"2rem"}>
+                <Card sx={{ minWidth: 275, borderRadius: "0.75rem" }}>
+                    <CardContent sx={{ p: "2rem" }}>
+                        <Box display="flex" flexDirection="column">
+                            <Typography variant="h4" fontWeight="600">
+                                New Data
+                            </Typography>
+                            <MemberForm
+                                onOpen={setOpenForm}
+                                merchantData={merchantOption}
+                                notify={notify}
+                                refreshData={() => {
+                                    refreshData();
+                                }}
+                            />
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Stack>
+        )
+    }
+
     return (
         <Stack direction={"column"} p={"2rem"}>
             <Card sx={{ minWidth: 275, borderRadius: "0.75rem" }}>
@@ -166,14 +269,11 @@ const LaporanInvoiceDetail = ({
                                     selectedValue={ouCode}
                                     setValue={setOuCode}
                                 />
-                                <DatePickerField
-                                    label={"Year Month"}
-                                    placeholder="MMM YYYY"
-                                    sx={{ width: "100%", fontSize: "16px" }}
-                                    value={periode}
-                                    format={"MMM YYYY"}
-                                    onChange={(newValue) => setPeriode(newValue)}
-                                    views={['month', 'year']}
+                                <InputField
+                                    label={"Keyword"}
+                                    placeholder="PSR-PKR-0003, SAM, BUD, ..."
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                    value={keyword}
                                 />
                             </Box>
                         </Stack>
@@ -198,7 +298,7 @@ const LaporanInvoiceDetail = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListInvoice({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
+                                    onClick={() => handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode?.value || ""], keyword: keyword })}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >
@@ -207,6 +307,11 @@ const LaporanInvoiceDetail = ({
                             </div>
                         </Stack>
                         <Box sx={{ width: "100%", mt: 10 }}>
+                            <CustomButton
+                                onClick={() => setOpenForm(true)}
+                                endIcon={<AddIcon size="14px" />}
+                                name={buttonAdd}
+                            />
                             <CustomPagination
                                 disableNext={disableNext}
                                 countLoading={countLoading}
@@ -220,6 +325,7 @@ const LaporanInvoiceDetail = ({
                                 headers={header}
                                 items={data}
                                 renderCell={renderCell}
+                                enableNumber={true}
                             />
                             <CustomPagination
                                 disableNext={disableNext}
@@ -238,4 +344,4 @@ const LaporanInvoiceDetail = ({
     )
 }
 
-export default LaporanInvoiceDetail
+export default MasterMember

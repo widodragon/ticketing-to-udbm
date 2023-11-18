@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react"
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
-import SelectField from "../../components/select-field"
+import SelectField from "../../../components/select-field"
 import SearchIcon from '@mui/icons-material/Search';
-import { getMemberList, getMemberMetadata } from "../../services/parkir/member";
-import CustomTable from "../../components/custom-table";
-import CustomPagination from "../../components/custom-pagination";
-import FilterMessageNote from "../../components/filter-message-note";
-import CustomButton from "../../components/custom-button";
-import InputField from "../../components/input-field";
-import { merchant_data } from "../../data/merchant"
+import CustomTable from "../../../components/custom-table";
+import CustomPagination from "../../../components/custom-pagination";
+import FilterMessageNote from "../../../components/filter-message-note";
+import CustomButton from "../../../components/custom-button";
+import { getInquiryMemberList, getInquiryMemberMetadata } from "../../../services/parkir/member";
+import moment from "moment";
 
-const MasterMember = ({
-    label = "Member",
+const MasterInquiryMember = ({
+    label = "Laporan Kartu Member",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
-    merchantData = merchant_data,
+    merchantData = [],
     setLoading = () => { },
     notify = () => { },
     buttomFilter = "Search"
@@ -23,12 +22,19 @@ const MasterMember = ({
     const [ouCode, setOuCode] = useState("")
     const [limit, setLimit] = useState(25);
     const [offset, setOffset] = useState(0);
+    const [status, setStatus] = useState("")
     const [ouCodeSelected, setOuCodeSelected] = useState([]);
     const [count, setCount] = useState(-99);
     const [countLoading, setCountLoading] = useState(false);
     const [disableNext, setDisableNext] = useState(false);
     const [data, setData] = useState([]);
     const header = [
+        {
+            title: "#",
+            value: "id",
+            align: "left",
+            width: "50px",
+        },
         {
             title: "KODE MEMBER",
             value: "partnerCode",
@@ -42,38 +48,56 @@ const MasterMember = ({
             width: "250px",
         },
         {
-            title: "TELP",
-            value: "phoneNumber",
+            title: "UNIT BISNIS",
+            value: "ouName",
             align: "left",
-            width: "200px",
+            width: "250px",
         },
         {
-            title: "EMAIL",
-            value: "email",
+            title: "MASA BERLAKU MEMBER",
+            value: "expMember",
             align: "left",
-            width: "200px",
+            width: "250px",
+        },
+        {
+            title: "NAMA PRODUK",
+            value: "productName",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "TANGGAL REGISTRASI",
+            value: "registeredDatetime",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "GROUP TYPE",
+            value: "roleType",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "TYPE MEMBER",
+            value: "typePartner",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "NOPOL",
+            value: "vehicleNumber",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "NO KARTU",
+            value: "cardNumber",
+            align: "left",
+            width: "250px",
         },
         {
             title: "STATUS MEMBER",
             value: "active",
-            align: "left",
-            width: "200px",
-        },
-        {
-            title: "ACTIVE AT",
-            value: "activeAt",
-            align: "left",
-            width: "200px",
-        },
-        {
-            title: "NON ACTIVE AT",
-            value: "nonActiveAt",
-            align: "left",
-            width: "200px",
-        },
-        {
-            title: "EXT MEMBER ID",
-            value: "extPartnerId",
             align: "left",
             width: "200px",
         },
@@ -90,27 +114,70 @@ const MasterMember = ({
             width: "200px",
         },
     ]
-    const renderCell = (item, header) => {
-        if (header.value === "partnerCode") {
+    const renderCell = (item, header, index) => {
+        if (header.value === "id") {
+            let page = (offset / limit) + 1
+            return <span>{(index + 1) + ((page - 1) * 10)}</span>;
+        } else if (header.value === "partnerCode") {
             return <span>{item.partnerCode}</span>;
         } else if (header.value === "name") {
-            return <span>{item.name}</span>;
-        } else if (header.value === "phoneNumber") {
-            return <span>{item.phoneNumber}</span>;
-        } else if (header.value === "email") {
-            return <span>{item.email}</span>;
+            return <span>{item.firstName + " " + item.lastName}</span>;
+        } else if (header.value === "ouName") {
+            return <span>{item.ouName}</span>;
+        } else if (header.value === "expMember") {
+            return <span>{item.dateFrom} s/d {item.dateTo}</span>;
+        } else if (header.value === "productName") {
+            return <span>{item.productName}</span>;
+        } else if (header.value === "registeredDatetime") {
+            return <span>{moment(item.registeredDatetime).format("YYYY-MM-DD HH:mm:ss")}</span>;
+        } else if (header.value === "roleType") {
+            return <span>{item.roleType}</span>;
+        } else if (header.value === "typePartner") {
+            return <span>{item.typePartner}</span>;
+        } else if (header.value === "vehicleNumber") {
+            return <span>{item.vehicleNumber}</span>;
         } else if (header.value === "active") {
-            return <span>{item.active}</span>;
-        } else if (header.value === "activeAt") {
-            return <span>{item.activeAt}</span>;
-        } else if (header.value === "nonActiveAt") {
-            return <span>{item.nonActiveAt}</span>;
-        } else if (header.value === "extPartnerId") {
-            return <span>{item.extPartnerId}</span>;
+            if (item.status === "ACTIVE") {
+                return (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            px: 2,
+                            py: 1,
+                            bgcolor: "#eaf5ea",
+                            color: "#4caf50",
+                            opacity: 0.9,
+                            width: "max-content",
+                            borderRadius: 12,
+                            justifyContent: "center"
+                        }}
+                    >
+                        <span>{item.status}</span>
+                    </Box>
+                )
+            } else {
+                return (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            px: 2,
+                            py: 1,
+                            bgcolor: "#f5eaeb",
+                            color: "#f62533",
+                            opacity: 0.9,
+                            width: "max-content",
+                            borderRadius: 12,
+                            justifyContent: "center"
+                        }}
+                    >
+                        <span>{item.status}</span>
+                    </Box>
+                )
+            }
         } else if (header.value === "createdBy") {
             return <span>{item.createdBy}</span>;
         } else if (header.value === "createdAt") {
-            return <span>{item.createdAt}</span>;
+            return <span>{moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss")}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
@@ -128,26 +195,33 @@ const MasterMember = ({
         setMerchantOption(merchantArr);
     }, [merchantData]);
 
-    const handleGetListMember = ({
+    const handleGetListInquiryMember = ({
         limitDt,
         offsetDt,
-        ouCodeValue
+        ouCodeValue,
+        status
     }) => {
         let countResult = 0;
         let data = {
-            "keyword": "",
-            "ascDesc": "ASC",
-            "statusMember": "",
-            "columnOrderName": "",
             "outletCode": ouCodeValue,
+            "keyword": "",
+            "statusMember": status,
+            "ascDesc": "ASC",
+            "columnOrderName": "",
             "limit": limitDt,
-            "offset": offsetDt
+            "offset": offsetDt,
         }
         setLoading(true);
         setCountLoading(true)
         setOuCodeSelected(ouCodeValue);
-        getMemberMetadata({
-            "outletCode": ouCodeValue
+        getInquiryMemberMetadata({
+            "outletCode": ouCodeValue,
+            "keyword": "",
+            "statusMember": status,
+            "ascDesc": "ASC",
+            "columnOrderName": "",
+            "limit": limitDt,
+            "offset": offsetDt,
         }).then((res) => {
             countResult = res.result;
             setDisableNext(false);
@@ -158,9 +232,8 @@ const MasterMember = ({
             setCountLoading(false);
             setCount(countResult)
         })
-        getMemberList(data).then((res) => {
+        getInquiryMemberList(data).then((res) => {
             if (res.result) {
-                console.log(res.result)
                 setData(res.result)
                 notify(res.message || "Success Get Data List", "success");
             } else {
@@ -173,20 +246,20 @@ const MasterMember = ({
             setData([]);
             setDisableNext(true);
             setLoading(false)
-            notify(JSON.stringify(e), "error");
+            notify(e.message, "error");
         })
     }
 
     const pageChange = async (value) => {
         var ofset = value * limit;
         setOffset(ofset);
-        handleGetListMember({ limitDt: limit, offsetDt: offset, ouCodeValue: ouCodeSelected });
+        handleGetListInquiryMember({ limitDt: limit, offsetDt: ofset, ouCodeValue: ouCodeSelected, status: status.value || "" });
     };
 
     const rowsChange = async (e) => {
         setOffset(0);
         setLimit(e.props.value);
-        handleGetListMember({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected });
+        handleGetListInquiryMember({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected, status: status.value || "" });
     };
 
     useEffect(() => {
@@ -195,7 +268,7 @@ const MasterMember = ({
             merchantOption.map((item) => {
                 ouCodeArr.push(item.value)
             })
-            handleGetListMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
+            handleGetListInquiryMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr, status: status.value || "" })
         }
     }, [merchantOption]);
 
@@ -221,9 +294,26 @@ const MasterMember = ({
                                     selectedValue={ouCode}
                                     setValue={setOuCode}
                                 />
-                                <InputField
-                                    label={"Keyword"}
-                                    placeholder="PSR-PKR-0003, SAM, BUD, ..."
+                                <SelectField
+                                    label={"Status Member"}
+                                    placeholder="Semua Status"
+                                    sx={{ width: "100%", fontSize: "16px" }}
+                                    data={[
+                                        {
+                                            label: "SEMUA",
+                                            value: ""
+                                        },
+                                        {
+                                            label: "ACTIVE",
+                                            value: "ACTIVE"
+                                        },
+                                        {
+                                            label: "EXPIRED",
+                                            value: "EXPIRED"
+                                        }
+                                    ]}
+                                    selectedValue={status}
+                                    setValue={setStatus}
                                 />
                             </Box>
                         </Stack>
@@ -248,7 +338,7 @@ const MasterMember = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
+                                    onClick={() => handleGetListInquiryMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""], status: status.value || "" })}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >
@@ -288,4 +378,4 @@ const MasterMember = ({
     )
 }
 
-export default MasterMember
+export default MasterInquiryMember

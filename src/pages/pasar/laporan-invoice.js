@@ -128,7 +128,7 @@ const LaporanInvoice = ({
     const pageChange = async (value) => {
         var ofset = value * limit;
         setOffset(ofset);
-        handleGetListInvoice({ limitDt: limit, offsetDt: offset, ouCodeValue: ouCodeSelected });
+        handleGetListInvoice({ limitDt: limit, offsetDt: ofset, ouCodeValue: ouCodeSelected });
     };
 
     const rowsChange = async (e) => {
