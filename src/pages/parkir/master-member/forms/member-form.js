@@ -152,7 +152,9 @@ const MemberForm = ({
                     errorMessage={formik.touched.email && formik.errors.email}
                 />
                 {
-                    formik.values.typePartner !== "FREEPASS" && <>
+                    formik.values.typePartner !== "FREEPASS" && <Box sx={{
+                        display: "contents"
+                    }}>
                         <DatePickerField
                             label={"Start Date"}
                             placeholder="YYYY-MM-DD"
@@ -184,10 +186,10 @@ const MemberForm = ({
                             isError={formik.touched.productId && formik.errors.productId}
                             errorMessage={formik.touched.productId && formik.errors.productId}
                         />
-                    </>
+                    </Box>
                 }
                 <Box sx={{
-                    display: formik.values.typePartner === "FREE PASS" ? "contents" : "grid",
+                    display: formik.values.typePartner === "FREEPASS" ? "contents" : "grid",
                     gridTemplateColumns: ["repeat(1, 1fr)", "repeat(3, 1fr)"],
                     gap: 2
                 }}>
