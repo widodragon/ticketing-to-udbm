@@ -298,7 +298,7 @@ const MasterMember = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode?.value || ""], keyword: keyword })}
+                                    onClick={() => handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""], keyword: keyword })}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >
