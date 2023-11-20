@@ -2,35 +2,40 @@ import React, { useEffect, useState } from "react"
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
 import SelectField from "../../../components/select-field"
 import SearchIcon from '@mui/icons-material/Search';
-import { getMemberList, getMemberMetadata } from "../../../services/parkir/member";
+import { getCardMemberList, getCardMemberMetadata } from "../../../services/parkir/member";
 import CustomTable from "../../../components/custom-table";
 import CustomPagination from "../../../components/custom-pagination";
 import FilterMessageNote from "../../../components/filter-message-note";
 import CustomButton from "../../../components/custom-button";
 import InputField from "../../../components/input-field";
-import AddIcon from '@mui/icons-material/Add';
-import MemberForm from "./forms/member-form";
+import { merchant_data } from "../../../data/merchant"
+import DatePickerField from "../../../components/datepicker-field";
+import moment from "moment";
 
-const MasterMember = ({
+const MasterCardMember = ({
     label = "Member",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
-    merchantData = [],
+    merchantData = merchant_data,
     setLoading = () => { },
     notify = () => { },
     buttomFilter = "Search",
-    buttonAdd = "Tambah Data"
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
-    const [ouCode, setOuCode] = useState("")
     const [limit, setLimit] = useState(25);
     const [offset, setOffset] = useState(0);
     const [ouCodeSelected, setOuCodeSelected] = useState([]);
     const [count, setCount] = useState(-99);
     const [countLoading, setCountLoading] = useState(false);
     const [disableNext, setDisableNext] = useState(false);
-    const [openForm, setOpenForm] = useState(false);
-    const [keyword, setKeyword] = useState("")
+    const [filterForm, setFilterForm] = useState({
+        ouCode: "",
+        keyword: "",
+        nopol: "",
+        status: "",
+        startDate: null,
+        endDate: null
+    })
     const [data, setData] = useState([]);
     const header = [
         {
@@ -52,38 +57,56 @@ const MasterMember = ({
             width: "250px",
         },
         {
-            title: "TELP",
-            value: "phoneNumber",
+            title: "UNIT BISNIS",
+            value: "ouName",
             align: "left",
-            width: "200px",
+            width: "250px",
         },
         {
-            title: "EMAIL",
-            value: "email",
+            title: "MASA BERLAKU MEMBER",
+            value: "expMember",
             align: "left",
-            width: "200px",
+            width: "250px",
+        },
+        {
+            title: "NAMA PRODUK",
+            value: "productName",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "TANGGAL REGISTRASI",
+            value: "registeredDatetime",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "GROUP TYPE",
+            value: "roleType",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "TYPE MEMBER",
+            value: "typePartner",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "NOPOL",
+            value: "vehicleNumber",
+            align: "left",
+            width: "250px",
+        },
+        {
+            title: "NO KARTU",
+            value: "cardNumber",
+            align: "left",
+            width: "250px",
         },
         {
             title: "STATUS MEMBER",
             value: "active",
-            align: "left",
-            width: "200px",
-        },
-        {
-            title: "ACTIVE AT",
-            value: "activeAt",
-            align: "left",
-            width: "200px",
-        },
-        {
-            title: "NON ACTIVE AT",
-            value: "nonActiveAt",
-            align: "left",
-            width: "200px",
-        },
-        {
-            title: "EXT MEMBER ID",
-            value: "extPartnerId",
             align: "left",
             width: "200px",
         },
@@ -108,22 +131,62 @@ const MasterMember = ({
             return <span>{item.partnerCode}</span>;
         } else if (header.value === "name") {
             return <span>{item.firstName + " " + item.lastName}</span>;
-        } else if (header.value === "phoneNumber") {
-            return <span>{item.phoneNumber}</span>;
-        } else if (header.value === "email") {
-            return <span>{item.email}</span>;
+        } else if (header.value === "ouName") {
+            return <span>{item.ouName}</span>;
+        } else if (header.value === "expMember") {
+            return <span>{item.dateFrom} s/d {item.dateTo}</span>;
+        } else if (header.value === "productName") {
+            return <span>{item.productName}</span>;
+        } else if (header.value === "registeredDatetime") {
+            return <span>{moment(item.registeredDatetime).format("YYYY-MM-DD HH:mm:ss")}</span>;
+        } else if (header.value === "roleType") {
+            return <span>{item.roleType}</span>;
+        } else if (header.value === "typePartner") {
+            return <span>{item.typePartner}</span>;
+        } else if (header.value === "vehicleNumber") {
+            return <span>{item.vehicleNumber}</span>;
         } else if (header.value === "active") {
-            return <span>{item.active}</span>;
-        } else if (header.value === "activeAt") {
-            return <span>{item.activeAt}</span>;
-        } else if (header.value === "nonActiveAt") {
-            return <span>{item.nonActiveAt}</span>;
-        } else if (header.value === "extPartnerId") {
-            return <span>{item.extPartnerId}</span>;
+            if (item.status === "ACTIVE") {
+                return (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            px: 2,
+                            py: 1,
+                            bgcolor: "#eaf5ea",
+                            color: "#4caf50",
+                            opacity: 0.9,
+                            width: "max-content",
+                            borderRadius: 12,
+                            justifyContent: "center"
+                        }}
+                    >
+                        <span>{item.status}</span>
+                    </Box>
+                )
+            } else {
+                return (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            px: 2,
+                            py: 1,
+                            bgcolor: "#f5eaeb",
+                            color: "#f62533",
+                            opacity: 0.9,
+                            width: "max-content",
+                            borderRadius: 12,
+                            justifyContent: "center"
+                        }}
+                    >
+                        <span>{item.status}</span>
+                    </Box>
+                )
+            }
         } else if (header.value === "createdBy") {
             return <span>{item.createdBy}</span>;
         } else if (header.value === "createdAt") {
-            return <span>{item.createdAt}</span>;
+            return <span>{moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss")}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
@@ -141,17 +204,17 @@ const MasterMember = ({
         setMerchantOption(merchantArr);
     }, [merchantData]);
 
-    const handleGetListMember = ({
+    const handleGetListCardMember = ({
         limitDt,
         offsetDt,
         ouCodeValue,
-        keyword
+        filter
     }) => {
         let countResult = 0;
         let data = {
-            "keyword": keyword,
+            "keyword": filter.keyword,
             "ascDesc": "ASC",
-            "statusMember": "",
+            "statusMember": filter.status,
             "columnOrderName": "",
             "outletCode": ouCodeValue,
             "limit": limitDt,
@@ -160,14 +223,14 @@ const MasterMember = ({
         setLoading(true);
         setCountLoading(true)
         setOuCodeSelected(ouCodeValue);
-        getMemberMetadata({
-            "keyword": keyword,
-            "outletCode": ouCodeValue,
-            "statusMember": "",
+        getCardMemberMetadata({
+            "keyword": filter.keyword,
             "ascDesc": "ASC",
+            "statusMember": filter.status,
             "columnOrderName": "",
-            "limit": 3,
-            "offset": 0
+            "outletCode": ouCodeValue,
+            "limit": limitDt,
+            "offset": offsetDt
         }).then((res) => {
             countResult = res.result;
             setDisableNext(false);
@@ -178,7 +241,7 @@ const MasterMember = ({
             setCountLoading(false);
             setCount(countResult)
         })
-        getMemberList(data).then((res) => {
+        getCardMemberList(data).then((res) => {
             if (res.result) {
                 setData(res.result)
                 notify(res.message || "Success Get Data List", "success");
@@ -199,13 +262,13 @@ const MasterMember = ({
     const pageChange = async (value) => {
         var ofset = value * limit;
         setOffset(ofset);
-        handleGetListMember({ limitDt: limit, offsetDt: ofset, ouCodeValue: ouCodeSelected, keyword: keyword });
+        handleGetListCardMember({ limitDt: limit, offsetDt: ofset, ouCodeValue: ouCodeSelected, filter: filterForm });
     };
 
     const rowsChange = async (e) => {
         setOffset(0);
         setLimit(e.props.value);
-        handleGetListMember({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected, keyword: keyword });
+        handleGetListCardMember({ limitDt: e.props.value, offsetDt: 0, ouCodeValue: ouCodeSelected, filter: filterForm });
     };
 
     useEffect(() => {
@@ -219,31 +282,7 @@ const MasterMember = ({
         merchantOption.map((item) => {
             ouCodeArr.push(item.value)
         })
-        handleGetListMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr, keyword: keyword })
-    }
-
-    if (openForm) {
-        return (
-            <Stack direction={"column"} p={"2rem"}>
-                <Card sx={{ minWidth: 275, borderRadius: "0.75rem" }}>
-                    <CardContent sx={{ p: "2rem" }}>
-                        <Box display="flex" flexDirection="column">
-                            <Typography variant="h4" fontWeight="600">
-                                New Data
-                            </Typography>
-                            <MemberForm
-                                onOpen={setOpenForm}
-                                merchantData={merchantOption}
-                                notify={notify}
-                                refreshData={() => {
-                                    refreshData();
-                                }}
-                            />
-                        </Box>
-                    </CardContent>
-                </Card>
-            </Stack>
-        )
+        handleGetListCardMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr, filter: filterForm })
     }
 
     return (
@@ -265,14 +304,91 @@ const MasterMember = ({
                                     placeholder="All Merchant"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                     data={merchantOption}
-                                    selectedValue={ouCode}
-                                    setValue={setOuCode}
+                                    selectedValue={filterForm.ouCode}
+                                    setValue={(val) => {
+                                        setFilterForm((prev) => ({
+                                            ...prev,
+                                            ouCode: val
+                                        }))
+                                    }}
                                 />
                                 <InputField
                                     label={"Keyword"}
                                     placeholder="PSR-PKR-0003, SAM, BUD, ..."
-                                    onChange={(e) => setKeyword(e.target.value)}
-                                    value={keyword}
+                                    onChange={(e) => {
+                                        setFilterForm((prev) => ({
+                                            ...prev,
+                                            keyword: e.target.value
+                                        }))
+                                    }}
+                                    value={filterForm.keyword}
+                                />
+                                <InputField
+                                    label={"NOPOL"}
+                                    placeholder="H 4433 LM, ..."
+                                    onChange={(e) => {
+                                        setFilterForm((prev) => ({
+                                            ...prev,
+                                            nopol: e.target.value
+                                        }))
+                                    }}
+                                    value={filterForm.nopol}
+                                />
+                                <SelectField
+                                    label={"Status Member"}
+                                    placeholder="All Merchant"
+                                    sx={{ width: "100%", fontSize: "16px" }}
+                                    data={[
+                                        {
+                                            label: "",
+                                            value: "SEMUA"
+                                        },
+                                        {
+                                            label: "ACTIVE",
+                                            value: "ACTIVE"
+                                        },
+                                        {
+                                            label: "EXPIRED",
+                                            value: "EXPIRED"
+                                        },
+                                        {
+                                            label: "PRE ACTIVE",
+                                            value: "PRE ACTIVE"
+                                        }
+                                    ]}
+                                    selectedValue={filterForm.status}
+                                    setValue={(val) => {
+                                        setFilterForm((prev) => ({
+                                            ...prev,
+                                            status: val
+                                        }))
+                                    }}
+                                />
+                                <DatePickerField
+                                    label={"Start Date"}
+                                    placeholder="YYYY-MM-DD"
+                                    sx={{ width: "100%", fontSize: "16px" }}
+                                    format={"YYYY-MM-DD"}
+                                    value={filterForm.startDate}
+                                    onChange={(newValue) => {
+                                        setFilterForm((prev) => ({
+                                            ...prev,
+                                            startDate: newValue
+                                        }))
+                                    }}
+                                />
+                                <DatePickerField
+                                    label={"End Date"}
+                                    placeholder="YYYY-MM-DD"
+                                    sx={{ width: "100%", fontSize: "16px" }}
+                                    format={"YYYY-MM-DD"}
+                                    value={filterForm.endDate}
+                                    onChange={(newValue) => {
+                                        setFilterForm((prev) => ({
+                                            ...prev,
+                                            endDate: newValue
+                                        }))
+                                    }}
                                 />
                             </Box>
                         </Stack>
@@ -297,7 +413,7 @@ const MasterMember = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""], keyword: keyword })}
+                                    onClick={() => handleGetListCardMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [filterForm.ouCode.value || ""], filter: filterForm })}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >
@@ -306,11 +422,6 @@ const MasterMember = ({
                             </div>
                         </Stack>
                         <Box sx={{ width: "100%", mt: 10 }}>
-                            <CustomButton
-                                onClick={() => setOpenForm(true)}
-                                endIcon={<AddIcon size="14px" />}
-                                name={buttonAdd}
-                            />
                             <CustomPagination
                                 disableNext={disableNext}
                                 countLoading={countLoading}
@@ -343,4 +454,4 @@ const MasterMember = ({
     )
 }
 
-export default MasterMember
+export default MasterCardMember
