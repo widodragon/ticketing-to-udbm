@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Stack } from "@mui/material"
+import { Box, Button, Stack } from "@mui/material"
 import SelectField from "../../../../components/select-field"
 import SearchIcon from '@mui/icons-material/Search';
 import { getExpiredCardMemberList, getExpiredCardMemberMetadata } from "../../../../services/parkir/member";
@@ -9,10 +9,11 @@ import FilterMessageNote from "../../../../components/filter-message-note";
 import CustomButton from "../../../../components/custom-button";
 import InputField from "../../../../components/input-field";
 import DatePickerField from "../../../../components/datepicker-field";
+import SyncIcon from '@mui/icons-material/Sync';
 import moment from "moment";
+import { addSyncMember } from "../../../../services/parkir/sync";
 
 const MasterExpiredCardMember = ({
-    label = "Member",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
     merchantData = [],
@@ -41,6 +42,12 @@ const MasterExpiredCardMember = ({
             title: "#",
             value: "id",
             align: "left",
+            width: "50px",
+        },
+        {
+            title: "ACTION",
+            value: "action",
+            align: "center",
             width: "50px",
         },
         {
@@ -122,10 +129,28 @@ const MasterExpiredCardMember = ({
             width: "200px",
         },
     ]
+
+    const handleSyncMember = (id) => {
+        let body = {
+            "ID": id
+        }
+        addSyncMember(body).then((res) => {
+            notify(res.message || "Success Sync Data", "success");
+        }).catch((e) => {
+            notify(e.message, "error");
+        })
+    }
+
     const renderCell = (item, header, index) => {
         if (header.value === "id") {
             let page = (offset / limit) + 1
             return <span>{(index + 1) + ((page - 1) * 10)}</span>;
+        } else if (header.value === "action") {
+            return (
+                <Button disabled={item.status !== "ACTIVE" ? true : false} type="button" onClick={() => handleSyncMember(item.id)}>
+                    <SyncIcon />
+                </Button>
+            );
         } else if (header.value === "partnerCode") {
             return <span>{item.partnerCode}</span>;
         } else if (header.value === "name") {
@@ -210,6 +235,12 @@ const MasterExpiredCardMember = ({
         filter
     }) => {
         let countResult = 0;
+        if (filter.startDate && !filter.endDate) {
+            return notify("End date must be filled in correctly!", "error")
+        }
+        if (!filter.startDate && filter.endDate) {
+            return notify("Start date must be filled in correctly!", "error")
+        }
         let data = {
             "keyword": filter.keyword,
             "outletCode": ouCodeValue,
@@ -260,7 +291,7 @@ const MasterExpiredCardMember = ({
             setData([]);
             setDisableNext(true);
             setLoading(false)
-            notify(JSON.stringify(e), "error");
+            notify(e.message, "error");
         })
     }
 
@@ -413,7 +444,7 @@ const MasterExpiredCardMember = ({
                         gap: 3
                     }}>
                         <CustomButton
-                            onClick={() => handleGetListCardMember({ limitDt: 25, offsetDt: 0, ouCodeValue: filterForm.ouCode.value ? [filterForm.ouCode.value] : null, filter: filterForm })}
+                            onClick={() => handleGetListCardMember({ limitDt: 25, offsetDt: 0, ouCodeValue: filterForm.ouCode ? [filterForm.ouCode.value] : null, filter: filterForm })}
                             startIcon={<SearchIcon size="14px" />}
                             name={buttomFilter}
                         >

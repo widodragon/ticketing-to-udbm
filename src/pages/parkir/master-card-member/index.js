@@ -2,12 +2,13 @@ import React, { useMemo, useState } from "react"
 import { Card, CardContent, Stack, Tab, Tabs, Typography } from "@mui/material"
 import MasterCardMember from "./card-member";
 import MasterExpiredCardMember from "./expired-card-member";
+import { merchant_data } from "../../../data/merchant";
 
 const CardMember = ({
     label = "Kartu Member",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
-    merchantData = [],
+    merchantData = merchant_data,
     setLoading = () => { },
     notify = () => { },
     buttomFilter = "Search",

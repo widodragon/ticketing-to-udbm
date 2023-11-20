@@ -192,7 +192,7 @@ const MasterMember = ({
             setData([]);
             setDisableNext(true);
             setLoading(false)
-            notify(JSON.stringify(e), "error");
+            notify(e.message, "error");
         })
     }
 
