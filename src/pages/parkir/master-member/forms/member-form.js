@@ -88,7 +88,7 @@ const MemberForm = ({
                     errorMessage={formik.touched.ouId && formik.errors.ouId}
                 />
                 <InputField
-                    label={"Kode Member"}
+                    label={"Member Code"}
                     required={true}
                     placeholder="PSR-PKR-0001, ..."
                     value={formik.values.partnerCode}
@@ -97,7 +97,7 @@ const MemberForm = ({
                     errorMessage={formik.touched.partnerCode && formik.errors.partnerCode}
                 />
                 <InputField
-                    label={"Nama Depan"}
+                    label={"First Name"}
                     required={true}
                     placeholder="SAM, ..."
                     value={formik.values.firstName}
@@ -106,7 +106,7 @@ const MemberForm = ({
                     errorMessage={formik.touched.firstName && formik.errors.firstName}
                 />
                 <InputField
-                    label={"Nama Belakang"}
+                    label={"Last Name"}
                     placeholder="BUD, ..."
                     value={formik.values.lastName}
                     onChange={(e) => formik.setFieldValue("lastName", e.target.value)}
@@ -115,7 +115,7 @@ const MemberForm = ({
                 />
                 <SelectField
                     label={"Group Type"}
-                    placeholder="Pilih Group Type"
+                    placeholder="Choose Group Type"
                     sx={{ width: "100%", fontSize: "16px" }}
                     data={roleList}
                     selectedValue={formik.values.roleType}
@@ -124,8 +124,8 @@ const MemberForm = ({
                     errorMessage={formik.touched.roleType && formik.errors.roleType}
                 />
                 <SelectField
-                    label={"Type Member"}
-                    placeholder="Pilih Type Member"
+                    label={"Member Type"}
+                    placeholder="Choose Member Type"
                     required={true}
                     sx={{ width: "100%", fontSize: "16px" }}
                     data={["FREEPASS", "MEMBER", "SPECIAL MEMBER"]}
@@ -135,7 +135,7 @@ const MemberForm = ({
                     errorMessage={formik.touched.typePartner && formik.errors.typePartner}
                 />
                 <InputField
-                    label={"Telp"}
+                    label={"Telephone"}
                     required={true}
                     placeholder="0812, ..."
                     value={formik.values.phoneNumber}
@@ -157,9 +157,9 @@ const MemberForm = ({
                     }}>
                         <DatePickerField
                             label={"Start Date"}
-                            placeholder="YYYY-MM-DD"
+                            placeholder="DD MMM YYYY"
                             sx={{ width: "100%", fontSize: "16px" }}
-                            format={"YYYY-MM-DD"}
+                            format={"DD MMM YYYY"}
                             value={formik.values.startDate}
                             onChange={(newValue) => formik.setFieldValue("startDate", newValue)}
                             isError={formik.touched.startDate && formik.errors.startDate}
@@ -167,17 +167,17 @@ const MemberForm = ({
                         />
                         <DatePickerField
                             label={"End Date"}
-                            placeholder="YYYY-MM-DD"
+                            placeholder="DD MMM YYYY"
                             sx={{ width: "100%", fontSize: "16px" }}
-                            format={"YYYY-MM-DD"}
+                            format={"DD MMM YYYY"}
                             value={formik.values.endDate}
                             onChange={(newValue) => formik.setFieldValue("endDate", newValue)}
                             isError={formik.touched.endDate && formik.errors.endDate}
                             errorMessage={formik.touched.endDate && formik.errors.endDate}
                         />
                         <SelectField
-                            label={"Produk"}
-                            placeholder="Pilih Produk"
+                            label={"Product"}
+                            placeholder="Choose Product"
                             required={true}
                             sx={{ width: "100%", fontSize: "16px" }}
                             data={productList}
@@ -194,7 +194,7 @@ const MemberForm = ({
                     gap: 2
                 }}>
                     <SelectField
-                        label={"Daftarkan"}
+                        label={"Registered"}
                         placeholder=""
                         sx={{ width: "100%", fontSize: "16px" }}
                         data={[
@@ -219,7 +219,7 @@ const MemberForm = ({
                     {
                         formik.values.registeredType && (formik.values.registeredType.value === "MIX" || formik.values.registeredType.value === "CARD_NUMBER") ?
                             <InputField
-                                label={"Nomor Kartu"}
+                                label={"Card Number"}
                                 required={true}
                                 placeholder="1234-e87"
                                 value={formik.values.cardNumber}
@@ -231,7 +231,7 @@ const MemberForm = ({
                     {
                         formik.values.registeredType && (formik.values.registeredType.value === "MIX" || formik.values.registeredType.value === "VEHICLE_NUMBER") ?
                             <InputField
-                                label={"NOPOL"}
+                                label={"License Plate"}
                                 required={true}
                                 placeholder="H 986 LM"
                                 value={formik.values.vehicleNumber}
@@ -246,7 +246,7 @@ const MemberForm = ({
                 <CustomButton
                     onClick={() => onOpen(false)}
                     startIcon={<KeyboardBackspaceIcon size="14px" />}
-                    name={"Kembali"}
+                    name={"Back"}
                     sx={{
                         backgroundColor: "grey"
                     }}
@@ -256,7 +256,7 @@ const MemberForm = ({
                 <CustomButton
                     onClick={() => { }}
                     endIcon={<SaveIcon size="14px" />}
-                    name={"Simpan"}
+                    name={"Save"}
                     type="submit"
                 >
                     Simpan

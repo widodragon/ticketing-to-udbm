@@ -10,7 +10,7 @@ const InputField = ({
 }) => {
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
-            <Typography color={"gray"} fontWeight={"600"} height={25}>{label} <span style={{ color: 'red' }}>{`${required ? "*" : ""}`}</span></Typography>
+            <Typography color={"rgb(71 85 105)"} fontSize="0.875rem" fontWeight={"600"} height={25}>{label} <span style={{ color: 'red' }}>{`${required ? "*" : ""}`}</span></Typography>
             <Input
                 {...other}
             />

@@ -51,37 +51,37 @@ const MasterCardMember = ({
             width: "50px",
         },
         {
-            title: "KODE MEMBER",
+            title: "MEMBER CODE",
             value: "partnerCode",
             align: "left",
             width: "200px",
         },
         {
-            title: "NAMA",
+            title: "NAME",
             value: "name",
             align: "left",
             width: "250px",
         },
         {
-            title: "UNIT BISNIS",
+            title: "BUSINESS UNIT",
             value: "ouName",
             align: "left",
             width: "250px",
         },
         {
-            title: "MASA BERLAKU MEMBER",
+            title: "MEMBER EXPIRATION",
             value: "expMember",
             align: "left",
             width: "250px",
         },
         {
-            title: "NAMA PRODUK",
+            title: "PRODUCT NAME",
             value: "productName",
             align: "left",
             width: "250px",
         },
         {
-            title: "TANGGAL REGISTRASI",
+            title: "REGISTRATION DATE",
             value: "registeredDatetime",
             align: "left",
             width: "250px",
@@ -99,31 +99,31 @@ const MasterCardMember = ({
             width: "250px",
         },
         {
-            title: "NOPOL",
+            title: "LICENSE PLATE",
             value: "vehicleNumber",
             align: "left",
             width: "250px",
         },
         {
-            title: "NO KARTU",
+            title: "CARD NUMBER",
             value: "cardNumber",
             align: "left",
             width: "250px",
         },
         {
-            title: "STATUS MEMBER",
+            title: "MEMBER STATUS",
             value: "active",
             align: "left",
             width: "200px",
         },
         {
-            title: "DIBUAT",
+            title: "MADE",
             value: "createdBy",
             align: "left",
             width: "200px",
         },
         {
-            title: "TANGGAL BUAT",
+            title: "CREATION DATE",
             value: "createdAt",
             align: "left",
             width: "200px",
@@ -331,7 +331,7 @@ const MasterCardMember = ({
                         gap: 2
                     }}>
                         <SelectField
-                            label={"Merchant"}
+                            label={"Group Merchant"}
                             placeholder="All Merchant"
                             sx={{ width: "100%", fontSize: "16px" }}
                             data={merchantOption}
@@ -355,7 +355,7 @@ const MasterCardMember = ({
                             value={filterForm.keyword}
                         />
                         <InputField
-                            label={"NOPOL"}
+                            label={"License Plate"}
                             placeholder="H 4433 LM, ..."
                             onChange={(e) => {
                                 setFilterForm((prev) => ({
@@ -366,7 +366,7 @@ const MasterCardMember = ({
                             value={filterForm.nopol}
                         />
                         <SelectField
-                            label={"Status Member"}
+                            label={"Member Status"}
                             placeholder="All Merchant"
                             sx={{ width: "100%", fontSize: "16px" }}
                             data={[
@@ -396,10 +396,10 @@ const MasterCardMember = ({
                             }}
                         />
                         <DatePickerField
-                            label={"Start Date"}
-                            placeholder="YYYY-MM-DD"
+                            label={"Date Range"}
+                            placeholder="DD MMM YYYY"
                             sx={{ width: "100%", fontSize: "16px" }}
-                            format={"YYYY-MM-DD"}
+                            format={"DD MMM YYYY"}
                             value={filterForm.startDate}
                             onChange={(newValue) => {
                                 setFilterForm((prev) => ({
@@ -409,10 +409,10 @@ const MasterCardMember = ({
                             }}
                         />
                         <DatePickerField
-                            label={"End Date"}
-                            placeholder="YYYY-MM-DD"
+                            label={""}
+                            placeholder="DD MMM YYYY"
                             sx={{ width: "100%", fontSize: "16px" }}
-                            format={"YYYY-MM-DD"}
+                            format={"DD MMM YYYY"}
                             value={filterForm.endDate}
                             onChange={(newValue) => {
                                 setFilterForm((prev) => ({

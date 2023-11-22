@@ -19,7 +19,7 @@ const MasterMember = ({
     setLoading = () => { },
     notify = () => { },
     buttomFilter = "Search",
-    buttonAdd = "Tambah Data"
+    buttonAdd = "Add Data"
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
     const [ouCode, setOuCode] = useState("")
@@ -40,19 +40,19 @@ const MasterMember = ({
             width: "50px",
         },
         {
-            title: "KODE MEMBER",
+            title: "MEMBER CODE",
             value: "partnerCode",
             align: "left",
             width: "200px",
         },
         {
-            title: "NAMA",
+            title: "NAME",
             value: "name",
             align: "left",
             width: "250px",
         },
         {
-            title: "TELP",
+            title: "TELEPHONE",
             value: "phoneNumber",
             align: "left",
             width: "200px",
@@ -64,7 +64,7 @@ const MasterMember = ({
             width: "200px",
         },
         {
-            title: "STATUS MEMBER",
+            title: "MEMBER STATUS",
             value: "active",
             align: "left",
             width: "200px",
@@ -88,13 +88,13 @@ const MasterMember = ({
             width: "200px",
         },
         {
-            title: "DIBUAT",
+            title: "MADE",
             value: "createdBy",
             align: "left",
             width: "200px",
         },
         {
-            title: "TANGGAL BUAT",
+            title: "CREATION DATE",
             value: "createdAt",
             align: "left",
             width: "200px",
@@ -229,7 +229,7 @@ const MasterMember = ({
                     <CardContent sx={{ p: "2rem" }}>
                         <Box display="flex" flexDirection="column">
                             <Typography variant="h4" fontWeight="600">
-                                New Data
+                                Add New Parking Member
                             </Typography>
                             <MemberForm
                                 onOpen={setOpenForm}
@@ -261,7 +261,7 @@ const MasterMember = ({
                                 gap: 2
                             }}>
                                 <SelectField
-                                    label={"Merchant"}
+                                    label={"Group Merchant"}
                                     placeholder="All Merchant"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                     data={merchantOption}
@@ -297,7 +297,7 @@ const MasterMember = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""], keyword: keyword })}
+                                    onClick={() => handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : null, keyword: keyword })}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >

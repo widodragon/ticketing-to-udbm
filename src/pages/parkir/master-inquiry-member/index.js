@@ -36,37 +36,37 @@ const MasterInquiryMember = ({
             width: "50px",
         },
         {
-            title: "KODE MEMBER",
+            title: "MEMBER CODE",
             value: "partnerCode",
             align: "left",
             width: "200px",
         },
         {
-            title: "NAMA",
+            title: "NAME",
             value: "name",
             align: "left",
             width: "250px",
         },
         {
-            title: "UNIT BISNIS",
+            title: "BUSINESS UNIT",
             value: "ouName",
             align: "left",
             width: "250px",
         },
         {
-            title: "MASA BERLAKU MEMBER",
+            title: "MEMBER EXPIRATION",
             value: "expMember",
             align: "left",
             width: "250px",
         },
         {
-            title: "NAMA PRODUK",
+            title: "PRODUCT NAME",
             value: "productName",
             align: "left",
             width: "250px",
         },
         {
-            title: "TANGGAL REGISTRASI",
+            title: "REGISTRATION DATE",
             value: "registeredDatetime",
             align: "left",
             width: "250px",
@@ -84,31 +84,31 @@ const MasterInquiryMember = ({
             width: "250px",
         },
         {
-            title: "NOPOL",
+            title: "LICENSE PLATE",
             value: "vehicleNumber",
             align: "left",
             width: "250px",
         },
         {
-            title: "NO KARTU",
+            title: "CARD NUMBER",
             value: "cardNumber",
             align: "left",
             width: "250px",
         },
         {
-            title: "STATUS MEMBER",
+            title: "MEMBER STATUS",
             value: "active",
             align: "left",
             width: "200px",
         },
         {
-            title: "DIBUAT",
+            title: "MADE",
             value: "createdBy",
             align: "left",
             width: "200px",
         },
         {
-            title: "TANGGAL BUAT",
+            title: "CREATION DATE",
             value: "createdAt",
             align: "left",
             width: "200px",
@@ -287,7 +287,7 @@ const MasterInquiryMember = ({
                                 gap: 2
                             }}>
                                 <SelectField
-                                    label={"Merchant"}
+                                    label={"Group Merchant"}
                                     placeholder="All Merchant"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                     data={merchantOption}
@@ -295,7 +295,7 @@ const MasterInquiryMember = ({
                                     setValue={setOuCode}
                                 />
                                 <SelectField
-                                    label={"Status Member"}
+                                    label={"Member Status"}
                                     placeholder="Semua Status"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                     data={[
@@ -338,7 +338,7 @@ const MasterInquiryMember = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListInquiryMember({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""], status: status.value || "" })}
+                                    onClick={() => handleGetListInquiryMember({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : null, status: status ? status.value : "" })}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >

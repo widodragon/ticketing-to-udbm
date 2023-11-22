@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react"
-import { Card, CardContent, Stack, Tab, Tabs, Typography } from "@mui/material"
+import { Box, Card, CardContent, Stack, Tab, Tabs, Typography } from "@mui/material"
 import MasterCardMember from "./card-member";
 import MasterExpiredCardMember from "./expired-card-member";
 
@@ -63,11 +63,18 @@ const CardMember = ({
                         scrollButtons="auto"
                         aria-label="scrollable auto tabs example"
                     >
-                        <Tab label="Kartu Member" />
-                        <Tab label="Expired Kartu Member" />
+                        <Tab label="Member Card" />
+                        <Tab label="Expired Card Member" />
                     </Tabs>
                 </CardContent>
-                {tabComponent}
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                    mt: ["-4rem","-2rem"]
+                }}>
+                    {tabComponent}
+                </Box>
             </Card>
         </Stack>
     )
