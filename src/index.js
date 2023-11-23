@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import LaporanWajibRetribusi from './pages/pasar/laporan-wajib-retribusi';
+import LaporanWajibRetribusi from './pages/parkir/master-inquiry-member';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

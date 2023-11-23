@@ -60,7 +60,7 @@ const LaporanInvoice = ({
         if (header.value === "corporateName") {
             return <span>{item.corporateName}</span>;
         } else if (header.value === "amountPerCount") {
-            return <span>{thousandSeparator(item.amountPerCount)}</span>;
+            return <span>Rp{thousandSeparator(item.amountPerCount)}</span>;
         } else if (header.value === "count") {
             return <span>{thousandSeparator(item.count)}</span>;
         } else if (header.value === "amount") {

@@ -10,11 +10,11 @@ import CustomButton from "../../../../components/custom-button";
 import InputField from "../../../../components/input-field";
 import DatePickerField from "../../../../components/datepicker-field";
 import SyncIcon from '@mui/icons-material/Sync';
-import moment from "moment";
 import { addSyncMember } from "../../../../services/parkir/sync";
 import StatusLabel from "../../../../components/status-label";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { dateFormat, dateFormatWithTime } from "../../../../utils/dateformat";
 
 const MasterCardMember = ({
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
@@ -172,11 +172,11 @@ const MasterCardMember = ({
         } else if (header.value === "ouName") {
             return <span>{item.ouName}</span>;
         } else if (header.value === "expMember") {
-            return <span>{item.dateFrom} s/d {item.dateTo}</span>;
+            return <span>{dateFormat(item.dateFrom)} s/d {dateFormat(item.dateTo)}</span>;
         } else if (header.value === "productName") {
             return <span>{item.productName}</span>;
         } else if (header.value === "registeredDatetime") {
-            return <span>{moment(item.registeredDatetime).format("YYYY-MM-DD HH:mm:ss")}</span>;
+            return <span>{dateFormatWithTime(item.registeredDatetime)}</span>;
         } else if (header.value === "roleType") {
             return <span>{item.roleType}</span>;
         } else if (header.value === "typePartner") {
@@ -204,7 +204,7 @@ const MasterCardMember = ({
         } else if (header.value === "createdBy") {
             return <span>{item.createdBy}</span>;
         } else if (header.value === "createdAt") {
-            return <span>{moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss")}</span>;
+            return <span>{dateFormatWithTime(item.createdAt)}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
@@ -361,7 +361,7 @@ const MasterCardMember = ({
                         />
                         <SelectField
                             label={"Member Status"}
-                            placeholder="All Merchant"
+                            placeholder="All Status"
                             sx={{ width: "100%", fontSize: "16px" }}
                             data={[
                                 {

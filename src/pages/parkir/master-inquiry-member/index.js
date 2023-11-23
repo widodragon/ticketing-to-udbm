@@ -7,7 +7,10 @@ import CustomPagination from "../../../components/custom-pagination";
 import FilterMessageNote from "../../../components/filter-message-note";
 import CustomButton from "../../../components/custom-button";
 import { getInquiryMemberList, getInquiryMemberMetadata } from "../../../services/parkir/member";
-import moment from "moment";
+import { dateFormat, dateFormatWithTime } from "../../../utils/dateformat";
+import StatusLabel from "../../../components/status-label";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const MasterInquiryMember = ({
     label = "Laporan Kartu Member",
@@ -125,11 +128,11 @@ const MasterInquiryMember = ({
         } else if (header.value === "ouName") {
             return <span>{item.ouName}</span>;
         } else if (header.value === "expMember") {
-            return <span>{item.dateFrom} s/d {item.dateTo}</span>;
+            return <span>{dateFormat(item.dateFrom)} s/d {dateFormat(item.dateTo)}</span>;
         } else if (header.value === "productName") {
             return <span>{item.productName}</span>;
         } else if (header.value === "registeredDatetime") {
-            return <span>{moment(item.registeredDatetime).format("YYYY-MM-DD HH:mm:ss")}</span>;
+            return <span>{dateFormatWithTime(item.registeredDatetime)}</span>;
         } else if (header.value === "roleType") {
             return <span>{item.roleType}</span>;
         } else if (header.value === "typePartner") {
@@ -139,45 +142,25 @@ const MasterInquiryMember = ({
         } else if (header.value === "active") {
             if (item.status === "ACTIVE") {
                 return (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            px: 2,
-                            py: 1,
-                            bgcolor: "#eaf5ea",
-                            color: "#4caf50",
-                            opacity: 0.9,
-                            width: "max-content",
-                            borderRadius: 12,
-                            justifyContent: "center"
-                        }}
-                    >
-                        <span>{item.status}</span>
-                    </Box>
+                    <StatusLabel
+                        variant="active"
+                        icon={<CheckCircleIcon sx={{ color: "white" }} />}
+                        label={item.status}
+                    />
                 )
             } else {
                 return (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            px: 2,
-                            py: 1,
-                            bgcolor: "#f5eaeb",
-                            color: "#f62533",
-                            opacity: 0.9,
-                            width: "max-content",
-                            borderRadius: 12,
-                            justifyContent: "center"
-                        }}
-                    >
-                        <span>{item.status}</span>
-                    </Box>
+                    <StatusLabel
+                        variant="inactive"
+                        icon={<HighlightOffIcon sx={{ color: "white" }} />}
+                        label={item.status}
+                    />
                 )
             }
         } else if (header.value === "createdBy") {
             return <span>{item.createdBy}</span>;
         } else if (header.value === "createdAt") {
-            return <span>{moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss")}</span>;
+            return <span>{dateFormatWithTime(item.createdAt)}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;

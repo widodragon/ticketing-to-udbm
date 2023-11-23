@@ -10,10 +10,10 @@ import CustomButton from "../../../components/custom-button";
 import InputField from "../../../components/input-field";
 import AddIcon from '@mui/icons-material/Add';
 import MemberForm from "./forms/member-form";
-import moment from "moment";
 import StatusLabel from "../../../components/status-label";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { dateFormatWithTime } from "../../../utils/dateformat";
 
 const MasterMember = ({
     label = "Member",
@@ -135,7 +135,7 @@ const MasterMember = ({
                 )
             }
         } else if (header.value === "activeAt") {
-            return <span>{moment(item.activeAt).format("DD MMM YYYY HH:mm:ss")}</span>;
+            return <span>{dateFormatWithTime(item.activeAt)}</span>;
         } else if (header.value === "nonActiveAt") {
             return <span>{item.nonActiveAt}</span>;
         } else if (header.value === "extPartnerId") {
@@ -143,7 +143,7 @@ const MasterMember = ({
         } else if (header.value === "createdBy") {
             return <span>{item.createdBy}</span>;
         } else if (header.value === "createdAt") {
-            return <span>{moment(item.createdAt).format("DD MMM YYYY HH:mm:ss")}</span>;
+            return <span>{dateFormatWithTime(item.createdAt)}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
@@ -281,7 +281,7 @@ const MasterMember = ({
                                 gap: 2
                             }}>
                                 <SelectField
-                                    label={"Group Merchant"}
+                                    label={"Merchant"}
                                     placeholder="All Merchant"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                     data={merchantOption}
