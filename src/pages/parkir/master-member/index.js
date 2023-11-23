@@ -10,6 +10,10 @@ import CustomButton from "../../../components/custom-button";
 import InputField from "../../../components/input-field";
 import AddIcon from '@mui/icons-material/Add';
 import MemberForm from "./forms/member-form";
+import moment from "moment";
+import StatusLabel from "../../../components/status-label";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const MasterMember = ({
     label = "Member",
@@ -88,7 +92,7 @@ const MasterMember = ({
             width: "200px",
         },
         {
-            title: "MADE",
+            title: "MADE BY",
             value: "createdBy",
             align: "left",
             width: "200px",
@@ -113,9 +117,25 @@ const MasterMember = ({
         } else if (header.value === "email") {
             return <span>{item.email}</span>;
         } else if (header.value === "active") {
-            return <span>{item.active}</span>;
+            if (item.active === "Y") {
+                return (
+                    <StatusLabel
+                        variant="active"
+                        icon={<CheckCircleIcon sx={{ color: "white" }} />}
+                        label="ACTIVE"
+                    />
+                )
+            } else {
+                return (
+                    <StatusLabel
+                        variant="inactive"
+                        icon={<HighlightOffIcon sx={{ color: "white" }} />}
+                        label="INACTIVE"
+                    />
+                )
+            }
         } else if (header.value === "activeAt") {
-            return <span>{item.activeAt}</span>;
+            return <span>{moment(item.activeAt).format("DD MMM YYYY HH:mm:ss")}</span>;
         } else if (header.value === "nonActiveAt") {
             return <span>{item.nonActiveAt}</span>;
         } else if (header.value === "extPartnerId") {
@@ -123,7 +143,7 @@ const MasterMember = ({
         } else if (header.value === "createdBy") {
             return <span>{item.createdBy}</span>;
         } else if (header.value === "createdAt") {
-            return <span>{item.createdAt}</span>;
+            return <span>{moment(item.createdAt).format("DD MMM YYYY HH:mm:ss")}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
@@ -308,7 +328,7 @@ const MasterMember = ({
                         <Box sx={{ width: "100%", mt: 10 }}>
                             <CustomButton
                                 onClick={() => setOpenForm(true)}
-                                endIcon={<AddIcon size="14px" />}
+                                startIcon={<AddIcon size="14px" />}
                                 name={buttonAdd}
                             />
                             <CustomPagination

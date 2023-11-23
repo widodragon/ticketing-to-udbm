@@ -48,7 +48,7 @@ const MasterInquiryMember = ({
             width: "250px",
         },
         {
-            title: "BUSINESS UNIT",
+            title: "MERCHANT",
             value: "ouName",
             align: "left",
             width: "250px",
@@ -102,7 +102,7 @@ const MasterInquiryMember = ({
             width: "200px",
         },
         {
-            title: "MADE",
+            title: "MADE BY",
             value: "createdBy",
             align: "left",
             width: "200px",
@@ -287,7 +287,7 @@ const MasterInquiryMember = ({
                                 gap: 2
                             }}>
                                 <SelectField
-                                    label={"Group Merchant"}
+                                    label={"Merchant"}
                                     placeholder="All Merchant"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                     data={merchantOption}
@@ -296,11 +296,11 @@ const MasterInquiryMember = ({
                                 />
                                 <SelectField
                                     label={"Member Status"}
-                                    placeholder="Semua Status"
+                                    placeholder="All Status"
                                     sx={{ width: "100%", fontSize: "16px" }}
                                     data={[
                                         {
-                                            label: "SEMUA",
+                                            label: "ALL STATUS",
                                             value: ""
                                         },
                                         {

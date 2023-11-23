@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, Stack } from "@mui/material"
+import { Box, Button, Stack, Tooltip } from "@mui/material"
 import SelectField from "../../../../components/select-field"
 import SearchIcon from '@mui/icons-material/Search';
 import { getCardMemberList, getCardMemberMetadata } from "../../../../services/parkir/member";
@@ -12,6 +12,9 @@ import DatePickerField from "../../../../components/datepicker-field";
 import SyncIcon from '@mui/icons-material/Sync';
 import moment from "moment";
 import { addSyncMember } from "../../../../services/parkir/sync";
+import StatusLabel from "../../../../components/status-label";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const MasterCardMember = ({
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
@@ -63,7 +66,7 @@ const MasterCardMember = ({
             width: "250px",
         },
         {
-            title: "BUSINESS UNIT",
+            title: "MERCHANT",
             value: "ouName",
             align: "left",
             width: "250px",
@@ -117,7 +120,7 @@ const MasterCardMember = ({
             width: "200px",
         },
         {
-            title: "MADE",
+            title: "MADE BY",
             value: "createdBy",
             align: "left",
             width: "200px",
@@ -147,9 +150,20 @@ const MasterCardMember = ({
             return <span>{(index + 1) + ((page - 1) * 10)}</span>;
         } else if (header.value === "action") {
             return (
-                <Button disabled={item.status !== "ACTIVE" ? true : false} type="button" onClick={() => handleSyncMember(item.id)}>
-                    <SyncIcon />
-                </Button>
+                <Tooltip title="Synchronize Member Cards">
+                    <Button
+                        type="button"
+                        onClick={() => {
+                            if (item.status === "ACTIVE") {
+                                handleSyncMember(item.id)
+                            } else {
+                                notify("Sorry the card is not active", "error");
+                            }
+                        }}
+                    >
+                        <SyncIcon />
+                    </Button>
+                </Tooltip>
             );
         } else if (header.value === "partnerCode") {
             return <span>{item.partnerCode}</span>;
@@ -172,39 +186,19 @@ const MasterCardMember = ({
         } else if (header.value === "active") {
             if (item.status === "ACTIVE") {
                 return (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            px: 2,
-                            py: 1,
-                            bgcolor: "#eaf5ea",
-                            color: "#4caf50",
-                            opacity: 0.9,
-                            width: "max-content",
-                            borderRadius: 12,
-                            justifyContent: "center"
-                        }}
-                    >
-                        <span>{item.status}</span>
-                    </Box>
+                    <StatusLabel
+                        variant="active"
+                        icon={<CheckCircleIcon sx={{ color: "white" }} />}
+                        label={item.status}
+                    />
                 )
             } else {
                 return (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            px: 2,
-                            py: 1,
-                            bgcolor: "#f5eaeb",
-                            color: "#f62533",
-                            opacity: 0.9,
-                            width: "max-content",
-                            borderRadius: 12,
-                            justifyContent: "center"
-                        }}
-                    >
-                        <span>{item.status}</span>
-                    </Box>
+                    <StatusLabel
+                        variant="inactive"
+                        icon={<HighlightOffIcon sx={{ color: "white" }} />}
+                        label={item.status}
+                    />
                 )
             }
         } else if (header.value === "createdBy") {
@@ -331,7 +325,7 @@ const MasterCardMember = ({
                         gap: 2
                     }}>
                         <SelectField
-                            label={"Group Merchant"}
+                            label={"Merchant"}
                             placeholder="All Merchant"
                             sx={{ width: "100%", fontSize: "16px" }}
                             data={merchantOption}
@@ -371,7 +365,7 @@ const MasterCardMember = ({
                             sx={{ width: "100%", fontSize: "16px" }}
                             data={[
                                 {
-                                    label: "SEMUA",
+                                    label: "ALL STATUS",
                                     value: ""
                                 },
                                 {

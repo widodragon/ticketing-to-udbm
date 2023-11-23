@@ -248,14 +248,17 @@ const MemberForm = ({
                     startIcon={<KeyboardBackspaceIcon size="14px" />}
                     name={"Back"}
                     sx={{
-                        backgroundColor: "grey"
+                        backgroundColor: "grey",
+                        ":hover": {
+                            backgroundColor: "#333333"
+                        }
                     }}
                 >
                     Kembali
                 </CustomButton>
                 <CustomButton
                     onClick={() => { }}
-                    endIcon={<SaveIcon size="14px" />}
+                    startIcon={<SaveIcon size="14px" />}
                     name={"Save"}
                     type="submit"
                 >

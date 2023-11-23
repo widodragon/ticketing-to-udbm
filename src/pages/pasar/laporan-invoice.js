@@ -64,7 +64,7 @@ const LaporanInvoice = ({
         } else if (header.value === "count") {
             return <span>{thousandSeparator(item.count)}</span>;
         } else if (header.value === "amount") {
-            return <span>{thousandSeparator(item.amount)}</span>;
+            return <span>Rp{thousandSeparator(item.amount)}</span>;
         }
 
         return <span>{item[header.value] ? item[header.value] : "-"}</span>;
