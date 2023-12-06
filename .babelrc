@@ -10,17 +10,6 @@
     "stage-0"
   ],
   "plugins": [
-    [ "babel-plugin-styled-components",
-      {
-        "ssr": true,
-        "displayName": true
-      }
-    ],
-    "transform-class-properties",
-    "transform-decorators",
-    "transform-react-constant-elements",
-    "transform-react-inline-elements",
-    [ "babel-plugin-webpack-alias", { "config": "./config/build/webpack.config.js" } ],
     [
       "file-loader",
       {
