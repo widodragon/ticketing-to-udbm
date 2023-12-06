@@ -7,7 +7,7 @@ import CustomTable from "../../../../components/custom-table";
 import CustomPagination from "../../../../components/custom-pagination";
 import FilterMessageNote from "../../../../components/filter-message-note";
 import CustomButton from "../../../../components/custom-button";
-import InputField from "../../../../components/input-field";
+import InputField from "../../../../components/text-field";
 import DatePickerField from "../../../../components/datepicker-field";
 import SyncIcon from '@mui/icons-material/Sync';
 import { addSyncMember } from "../../../../services/parkir/sync";

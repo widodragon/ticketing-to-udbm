@@ -7,7 +7,7 @@ import CustomTable from "../../../components/custom-table";
 import CustomPagination from "../../../components/custom-pagination";
 import FilterMessageNote from "../../../components/filter-message-note";
 import CustomButton from "../../../components/custom-button";
-import InputField from "../../../components/input-field";
+import InputField from "../../../components/text-field";
 import AddIcon from '@mui/icons-material/Add';
 import MemberForm from "./forms/member-form";
 import StatusLabel from "../../../components/status-label";

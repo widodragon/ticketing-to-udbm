@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SelectField from "../../../../components/select-field";
-import InputField from "../../../../components/input-field";
+import InputField from "../../../../components/text-field";
 import DatePickerField from "../../../../components/datepicker-field"
 import CustomButton from "../../../../components/custom-button";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
