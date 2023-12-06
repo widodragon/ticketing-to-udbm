@@ -272,8 +272,8 @@ const LaporanShiftPeriod = ({
     }, [merchantData]);
 
     useEffect(() => {
-        getComboPaymentMethodList("CTGR_PAYMENT_MENTHOD").then((res) => {
-            setPaymentMethodList(res.result?.map((data) => {
+        getComboPaymentMethodList().then((res) => {
+            setPaymentMethodList(res.result.map((data) => {
                 return {
                     label: data.comboName,
                     value: data.comboCode
