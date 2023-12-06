@@ -438,7 +438,11 @@ const MasterCardMember = ({
                         gap: 3
                     }}>
                         <CustomButton
-                            onClick={() => handleGetListCardMember({ limitDt: 25, offsetDt: 0, ouCodeValue: filterForm.ouCode ? [filterForm.ouCode.value] : null, filter: filterForm })}
+                            onClick={() => {
+                                setLimit(25)
+                                setOffset(0)
+                                handleGetListCardMember({ limitDt: 25, offsetDt: 0, ouCodeValue: filterForm.ouCode ? [filterForm.ouCode.value] : null, filter: filterForm })
+                            }}
                             startIcon={<SearchIcon size="14px" />}
                             name={buttomFilter}
                         >

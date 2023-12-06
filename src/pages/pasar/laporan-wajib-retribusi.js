@@ -237,7 +237,11 @@ const LaporanWajibRetribusi = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListAccountDetail({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
+                                    onClick={() => {
+                                        setLimit(25)
+                                        setOffset(0)
+                                        handleGetListAccountDetail({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })
+                                    }}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >

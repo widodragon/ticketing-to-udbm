@@ -199,7 +199,11 @@ const LaporanInvoice = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListInvoice({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })}
+                                    onClick={() => {
+                                        setLimit(25)
+                                        setOffset(0)
+                                        handleGetListInvoice({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })
+                                    }}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >

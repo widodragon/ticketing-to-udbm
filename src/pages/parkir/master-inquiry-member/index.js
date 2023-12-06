@@ -321,7 +321,11 @@ const MasterInquiryMember = ({
                                 gap: 3
                             }}>
                                 <CustomButton
-                                    onClick={() => handleGetListInquiryMember({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : null, status: status ? status.value : "" })}
+                                    onClick={() => {
+                                        setLimit(25)
+                                        setOffset(0)
+                                        handleGetListInquiryMember({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : null, status: status ? status.value : "" })
+                                    }}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}
                                 >
