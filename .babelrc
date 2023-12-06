@@ -8,18 +8,5 @@
     ],
     "react",
     "stage-0"
-  ],
-  "plugins": [
-    [
-      "file-loader",
-      {
-        "name": "[name].[ext]",
-        "extensions": ["png", "jpg", "jpeg", "gif", "svg"],
-        "publicPath": "/images",
-        "outputPath": "/public/images",
-        "context": "/"
-      }
-    ]
   ]
-
 }
