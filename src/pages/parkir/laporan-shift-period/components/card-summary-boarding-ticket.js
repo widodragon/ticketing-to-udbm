@@ -1,7 +1,6 @@
 import React from "react";
 import CardAmountSummary from "../../../../components/card-amount-summary";
-import TransactionAmount from "../../../../assets/UDB_Icon_Cash Bank.svg";
-import ServiceFee from "../../../../assets/UDB_Icon_Service Fee_Blue.svg";
+
 const CardSummaryBoardingTicket = ({
     summaryDetail = {},
     className = "",
@@ -14,7 +13,6 @@ const CardSummaryBoardingTicket = ({
                 isLoading={isLoading}
                 title="Total Amount:"
                 amount={summaryDetail.grandTotal}
-                icon={TransactionAmount}
                 sidebarExpanded={sidebarExpanded}
                 rotate={90}
             />
@@ -23,7 +21,6 @@ const CardSummaryBoardingTicket = ({
                 title="Service Fee:"
                 amount={summaryDetail.serviceFee}
                 isCurrency={true}
-                icon={ServiceFee}
                 sidebarExpanded={sidebarExpanded}
             />
             <CardAmountSummary
@@ -31,7 +28,6 @@ const CardSummaryBoardingTicket = ({
                 title="MDR:"
                 amount={summaryDetail.mdr}
                 isCurrency={true}
-                icon={ServiceFee}
                 sidebarExpanded={sidebarExpanded}
             />
         </div>

@@ -1,13 +1,12 @@
 import React from "react";
 import { ReactSVG } from "react-svg";
 import { Box } from "@mui/material";
-import BaseIcon from "../assets/UDB_Icon_Home_Blue.svg";
 
 const CustomIcon = ({
     disabled = false,
     color = "white",
     size = "30px",
-    icon = BaseIcon,
+    icon = "",
     style = "",
     rotate = 0,
 }) => {
@@ -15,7 +14,15 @@ const CustomIcon = ({
         <Box sx={{
             color: "white"
         }}>
-            <ReactSVG
+            <img
+                src="/images/UDB_Icon_Cash Bank.svg"
+                style={{
+                    width: size,
+                    height: size,
+                    color: color
+                }}
+            />
+            {/* <ReactSVG
                 src={icon}
                 style={{}}
                 beforeInjection={(svg) => {
@@ -24,7 +31,7 @@ const CustomIcon = ({
                         `width: ${size}; height: ${size}; fill: ${color}; ${style} transform: rotate(${rotate}deg);`
                     );
                 }}
-            />
+            /> */}
         </Box>
     );
 };

@@ -1,7 +1,6 @@
 import { Avatar, Skeleton } from "@mui/material";
 import React from "react";
 import CustomIcon from "./custom-icon";
-import IconCredit from "../assets/UDB_Icon_Credit.svg";
 import { formatCurrency } from "../utils/format-currency";
 import { thousandSeparator } from "../utils/thousand-separator";
 
@@ -9,7 +8,7 @@ const CardAmountSummary = ({
   iconBackgroundColor = "#D0DFF4",
   isLoading = false,
   title = "Title:",
-  icon = IconCredit,
+  icon = "",
   subtitle = "Subtitle:",
   isCurrency = true,
   amount = 0,
