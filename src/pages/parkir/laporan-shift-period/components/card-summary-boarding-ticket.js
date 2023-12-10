@@ -21,7 +21,7 @@ const CardSummaryBoardingTicket = ({
                 amount={summaryDetail.grandTotal}
                 sidebarExpanded={sidebarExpanded}
                 rotate={90}
-                src="./images/UDB_Icon_Cash Bank.svg"
+                src="./images/UDB_Icon_Cash Bank.png"
             />
             <CardAmountSummary
                 isLoading={isLoading}
