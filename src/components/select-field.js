@@ -25,6 +25,7 @@ const SelectField = ({
                 value={selectedValue}
                 onChange={handleChange}
                 renderInput={(params) => <TextField variant="standard" {...params} placeholder={placeholder} />}
+                freeSolo={true}
                 {...other}
             />
             <Typography fontSize={12} color="red">{isError && errorMessage}</Typography>

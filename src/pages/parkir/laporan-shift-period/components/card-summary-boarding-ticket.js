@@ -5,7 +5,9 @@ import { Box } from "@mui/material";
 const CardSummaryBoardingTicket = ({
     summaryDetail = {},
     isLoading = true,
-    sidebarExpanded = false
+    sidebarExpanded = false,
+    cashBankSrc = "",
+    serviceFeeSrc = ""
 }) => {
     return (
         <Box
@@ -21,7 +23,7 @@ const CardSummaryBoardingTicket = ({
                 amount={summaryDetail.grandTotal}
                 sidebarExpanded={sidebarExpanded}
                 rotate={90}
-                src={process.env.PUBLIC_URL + "/images/UDB_Icon_Cash Bank.svg"}
+                src={cashBankSrc}
             />
             <CardAmountSummary
                 isLoading={isLoading}
@@ -29,7 +31,7 @@ const CardSummaryBoardingTicket = ({
                 amount={summaryDetail.serviceFee}
                 isCurrency={true}
                 sidebarExpanded={sidebarExpanded}
-                src={process.env.PUBLIC_URL + "/images/UDB_Icon_Service Fee_Blue.svg"}
+                src={serviceFeeSrc}
             />
             <CardAmountSummary
                 isLoading={isLoading}
@@ -37,7 +39,7 @@ const CardSummaryBoardingTicket = ({
                 amount={summaryDetail.mdr}
                 isCurrency={true}
                 sidebarExpanded={sidebarExpanded}
-                src={process.env.PUBLIC_URL + "/images/UDB_Icon_Service Fee_Blue.svg"}
+                src={serviceFeeSrc}
             />
         </Box>
     );

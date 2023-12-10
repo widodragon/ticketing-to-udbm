@@ -24,7 +24,9 @@ const LaporanShiftPeriod = ({
     setLoading = () => { },
     notify = () => { },
     buttomFilter = "Search",
-    sidebarExpanded = false
+    sidebarExpanded = false,
+    cashBankSrc = "",
+    serviceFeeSrc = ""
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
     const [limit, setLimit] = useState(25);
@@ -564,6 +566,8 @@ const LaporanShiftPeriod = ({
                                         summaryDetail={detail}
                                         isLoading={loadingDetail}
                                         sidebarExpanded={sidebarExpanded}
+                                        cashBankSrc={cashBankSrc}
+                                        serviceFeeSrc={serviceFeeSrc}
                                     />
                                 </Stack>
                                 <Box sx={{ width: "100%", mt: 10 }}>
