@@ -3,10 +3,14 @@
     [
       "env",
       {
-        "modules": true
+        "modules": false
       }
     ],
     "react",
     "stage-0"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread"
   ]
 }

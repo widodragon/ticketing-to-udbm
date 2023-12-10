@@ -1,6 +1,6 @@
 {
   "name": "ticketing-to-udbm",
-  "version": "0.7.9",
+  "version": "0.8.1",
   "private": true,
   "homepage": "/",
   "dependencies": {
