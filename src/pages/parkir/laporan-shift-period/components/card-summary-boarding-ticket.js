@@ -21,7 +21,7 @@ const CardSummaryBoardingTicket = ({
                 amount={summaryDetail.grandTotal}
                 sidebarExpanded={sidebarExpanded}
                 rotate={90}
-                src="./images/UDB_Icon_Cash Bank.png"
+                src={process.env.PUBLIC_URL + "/images/UDB_Icon_Cash Bank.svg"}
             />
             <CardAmountSummary
                 isLoading={isLoading}
@@ -29,7 +29,7 @@ const CardSummaryBoardingTicket = ({
                 amount={summaryDetail.serviceFee}
                 isCurrency={true}
                 sidebarExpanded={sidebarExpanded}
-                src="./images/UDB_Icon_Service Fee_Blue.svg"
+                src={process.env.PUBLIC_URL + "/images/UDB_Icon_Service Fee_Blue.svg"}
             />
             <CardAmountSummary
                 isLoading={isLoading}
@@ -37,7 +37,7 @@ const CardSummaryBoardingTicket = ({
                 amount={summaryDetail.mdr}
                 isCurrency={true}
                 sidebarExpanded={sidebarExpanded}
-                src="./images/UDB_Icon_Service Fee_Blue.svg"
+                src={process.env.PUBLIC_URL + "/images/UDB_Icon_Service Fee_Blue.svg"}
             />
         </Box>
     );
