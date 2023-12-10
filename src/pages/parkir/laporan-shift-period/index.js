@@ -559,12 +559,13 @@ const LaporanShiftPeriod = ({
                                         </CustomButton>
                                     </div>
                                 </Stack>
-                                <CardSummaryBoardingTicket
-                                    className="mt-6"
-                                    summaryDetail={detail}
-                                    isLoading={loadingDetail}
-                                    sidebarExpanded={sidebarExpanded}
-                                />
+                                <Stack mt={6}>
+                                    <CardSummaryBoardingTicket
+                                        summaryDetail={detail}
+                                        isLoading={loadingDetail}
+                                        sidebarExpanded={sidebarExpanded}
+                                    />
+                                </Stack>
                                 <Box sx={{ width: "100%", mt: 10 }}>
                                     <CustomPagination
                                         disableNext={disableNext}

@@ -1,4 +1,4 @@
-import { Avatar, Skeleton } from "@mui/material";
+import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
 import CustomIcon from "./custom-icon";
 import { formatCurrency } from "../utils/format-currency";
@@ -8,7 +8,7 @@ const CardAmountSummary = ({
   iconBackgroundColor = "#D0DFF4",
   isLoading = false,
   title = "Title:",
-  icon = "",
+  src = "",
   subtitle = "Subtitle:",
   isCurrency = true,
   amount = 0,
@@ -19,17 +19,27 @@ const CardAmountSummary = ({
   rotate = 0
 }) => {
   return (
-    <div
-      className={` 
-    flex-col col-span-full sm:col-span-6 md:col-span-4  ${sidebarExpanded
-          ? "animate-fadeIn  lg:col-span-4"
-          : "animate-fadeIn lg:col-span-3"
-        }
-     ${className}`}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gridColumn: sidebarExpanded ? ["1/-1", "span 6 / span 6", "span 4 / span 4"] : ["1/-1", "span 6 / span 6", "span 3 / span 3"]
+      }}
     >
-      <header className="flex gap-3 items-center">
+      <Box
+        sx={{
+          display: "flex",
+          gap: 3,
+          alignItems: "center"
+        }}
+      >
         {/* Icon */}
-        <div className="  flex items-center ">
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center"
+          }}
+        >
           <Avatar
             variant="rounded"
             sx={{
@@ -40,53 +50,47 @@ const CardAmountSummary = ({
               borderRadius: 3,
             }}
           >
-            <CustomIcon color="#3875CA" size={30} icon={icon} rotate={rotate} />
+            <CustomIcon color="#3875CA" size={30} src={src} rotate={rotate} />
           </Avatar>
-        </div>
-        <div className="  ">
-          <div className="text-xs font-semibold text-slate-500 uppercase flex ">
-            <p>{title}</p>
-          </div>
-          <div className=" flex items-start">
-            <div className="text-lg font-bold text-slate-800 mr-2 flex">
-              <p className="text-lg font-bold text-slate-800 mr-2 w-max">
-                <span>
-                  {!isLoading ? (
-                    isCurrency ? (
-                      formatCurrency(amount)
-                    ) : (
-                      thousandSeparator(amount)
-                    )
-                  ) : (
-                    <Skeleton width={"120px"} />
-                  )}
-                </span>
-              </p>
-            </div>
-          </div>
-          {total !== 0 ? (
-            <div className="text-xs font-semibold text-slate-500 uppercase flex ">
-              <p className="flex gap-2">
-                {subtitle}{" "}
+        </Box>
+        <Box>
+          <Typography fontSize={"0.75rem"} fontWeight={600} textTransform={"uppercase"} color={"rgb(100, 116, 139)"}>{title}</Typography>
+          <Box display="flex" alignItems={"start"}>
+            <Typography fontSize={"1.125rem"} fontWeight={600} mr={2} textTransform={"uppercase"} color={"rgb(30, 41, 59)"}>
+              <span>
                 {!isLoading ? (
-                  <span>
-                    {isTotalCurrency
-                      ? thousandSeparator(total)
-                      : formatCurrency(total)}
-                  </span>
+                  isCurrency ? (
+                    formatCurrency(amount)
+                  ) : (
+                    thousandSeparator(amount)
+                  )
                 ) : (
-                  <span>
-                    <Skeleton width={"40px"} />
-                  </span>
+                  <Skeleton width={"120px"} />
                 )}
-              </p>
-            </div>
+              </span>
+            </Typography>
+          </Box>
+          {total !== 0 ? (
+            <Typography fontSize={"0.75rem"} fontWeight={600} textTransform={"uppercase"} color={"rgb(100, 116, 139)"}>
+              {subtitle}{" "}
+              {!isLoading ? (
+                <span>
+                  {isTotalCurrency
+                    ? thousandSeparator(total)
+                    : formatCurrency(total)}
+                </span>
+              ) : (
+                <span>
+                  <Skeleton width={"40px"} />
+                </span>
+              )}
+            </Typography>
           ) : (
             ""
           )}
-        </div>
-      </header>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
