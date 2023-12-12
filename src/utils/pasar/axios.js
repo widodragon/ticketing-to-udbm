@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: "https://sandbox.mkpmobile.com/api/eretribusiudbm",
+    baseURL: "https://apipayment.mkpmobile.com/eretribusiudbm",
 });
 
 instance.defaults.headers.common['Content-Type'] = "application/json";
