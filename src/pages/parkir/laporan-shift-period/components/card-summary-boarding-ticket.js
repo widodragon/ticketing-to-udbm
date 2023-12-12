@@ -14,7 +14,7 @@ const CardSummaryBoardingTicket = ({
             sx={{
                 display: "grid",
                 gridTemplateColumns: "repeat(12, minmax(0, 1fr))",
-                gap: 6
+                gap: "1.6rem"
             }}
         >
             <CardAmountSummary

@@ -71,7 +71,7 @@ const CardMember = ({
                     display: "flex",
                     flexDirection: "column",
                     width: "100%",
-                    mt: ["-4rem","-2rem"]
+                    mt: ["-4rem"]
                 }}>
                     {tabComponent}
                 </Box>

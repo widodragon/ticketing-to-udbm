@@ -29,6 +29,7 @@ const LaporanInvoiceDetail = ({
     const [disableNext, setDisableNext] = useState(false);
     const [data, setData] = useState([]);
     const [periode, setPeriode] = useState(moment())
+    const [allMerchant, setAllMerchant] = useState([])
     const header = [
         {
             title: "CORPORATE NAME",
@@ -141,6 +142,7 @@ const LaporanInvoiceDetail = ({
             merchantOption.map((item) => {
                 ouCodeArr.push(item.value)
             })
+            setAllMerchant(ouCodeArr)
             handleGetListInvoice({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
         }
     }, [merchantOption]);
@@ -201,7 +203,7 @@ const LaporanInvoiceDetail = ({
                                     onClick={() => {
                                         setLimit(25)
                                         setOffset(0)
-                                        handleGetListInvoice({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })
+                                        handleGetListInvoice({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : allMerchant })
                                     }}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}

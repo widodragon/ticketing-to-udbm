@@ -398,7 +398,7 @@ const LaporanShiftPeriod = ({
                         <Typography variant="h4" fontWeight="600">
                             {label}
                         </Typography>
-                        <Stack display="flex" direction="column" mt={"2rem"} gap={2}>
+                        <Stack display="flex" direction="column" mt={"1.6rem"} gap={2}>
                             <Box display="flex" flexDirection="column">
                                 <Stack display="flex" direction="column" mt={"2rem"} gap={2}>
                                     <Box sx={{
@@ -535,7 +535,7 @@ const LaporanShiftPeriod = ({
                                     alignItems: ["end", "center"],
                                     gap: 3,
                                     justifyContent: "space-between",
-                                    mt: 8
+                                    mt: "2rem"
                                 }}>
                                     <FilterMessageNote
                                         sx={{
@@ -561,7 +561,8 @@ const LaporanShiftPeriod = ({
                                         </CustomButton>
                                     </div>
                                 </Stack>
-                                <Stack mt={6}>
+                                <Stack mt={6} gap={"1rem"} mb={"1.6rem"}>
+                                    <Typography fontSize={"1.25rem"} color="rgb(30, 41, 59)" fontWeight={"bold"}>Transaction Summary</Typography>
                                     <CardSummaryBoardingTicket
                                         summaryDetail={detail}
                                         isLoading={loadingDetail}
@@ -570,7 +571,7 @@ const LaporanShiftPeriod = ({
                                         serviceFeeSrc={serviceFeeSrc}
                                     />
                                 </Stack>
-                                <Box sx={{ width: "100%", mt: 10 }}>
+                                <Box sx={{ width: "100%" }}>
                                     <CustomPagination
                                         disableNext={disableNext}
                                         countLoading={countLoading}

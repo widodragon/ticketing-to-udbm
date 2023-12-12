@@ -424,7 +424,7 @@ const MasterCardMember = ({
                     alignItems: ["end", "center"],
                     gap: 3,
                     justifyContent: "space-between",
-                    mt: 8
+                    mt: "2rem"
                 }}>
                     <FilterMessageNote
                         sx={{
@@ -435,7 +435,7 @@ const MasterCardMember = ({
                     />
                     <div style={{
                         display: "flex",
-                        gap: 3
+                        gap: "0.75rem"
                     }}>
                         <CustomButton
                             onClick={() => {
@@ -450,7 +450,7 @@ const MasterCardMember = ({
                         </CustomButton>
                     </div>
                 </Stack>
-                <Box sx={{ width: "100%", mt: 10 }}>
+                <Box sx={{ width: "100%", mt: "2.5rem" }}>
                     <CustomPagination
                         disableNext={disableNext}
                         countLoading={countLoading}

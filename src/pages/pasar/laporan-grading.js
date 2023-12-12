@@ -29,6 +29,7 @@ const LaporanGrading = ({
     const [disableNext, setDisableNext] = useState(false);
     const [data, setData] = useState([]);
     const [periode, setPeriode] = useState(moment())
+    const [allMerchant, setAllMerchant] = useState([])
     const header = [
         {
             title: "MERCHANT NAME",
@@ -143,6 +144,7 @@ const LaporanGrading = ({
             merchantOption.map((item) => {
                 ouCodeArr.push(item.value)
             })
+            setAllMerchant(ouCodeArr);
             handleGetListGrading({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
         }
     }, [merchantOption]);
@@ -204,7 +206,7 @@ const LaporanGrading = ({
                                     onClick={() => {
                                         setLimit(25)
                                         setOffset(0)
-                                        handleGetListGrading({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })
+                                        handleGetListGrading({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : allMerchant })
                                     }}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}

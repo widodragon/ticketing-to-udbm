@@ -29,7 +29,7 @@ const CardAmountSummary = ({
       <Box
         sx={{
           display: "flex",
-          gap: 3,
+          gap: "0.75rem",
           alignItems: "center"
         }}
       >

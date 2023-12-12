@@ -26,6 +26,7 @@ const LaporanWajibRetribusi = ({
     const [countLoading, setCountLoading] = useState(false);
     const [disableNext, setDisableNext] = useState(false);
     const [data, setData] = useState([]);
+    const [allMerchant, setAllMerchant] = useState([])
     const header = [
         {
             title: "MERCHANT NAME",
@@ -188,6 +189,7 @@ const LaporanWajibRetribusi = ({
             merchantOption.map((item) => {
                 ouCodeArr.push(item.value)
             })
+            setAllMerchant(ouCodeArr)
             handleGetListAccountDetail({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr })
         }
     }, [merchantOption]);
@@ -240,7 +242,7 @@ const LaporanWajibRetribusi = ({
                                     onClick={() => {
                                         setLimit(25)
                                         setOffset(0)
-                                        handleGetListAccountDetail({ limitDt: 25, offsetDt: 0, ouCodeValue: [ouCode.value || ""] })
+                                        handleGetListAccountDetail({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : allMerchant })
                                     }}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}

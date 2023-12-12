@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-import { Box, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import EventIcon from '@mui/icons-material/Event';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import 'moment/locale/id';
 
 const TimePickerField = ({
@@ -18,7 +18,7 @@ const TimePickerField = ({
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
             <Typography color={"rgb(71 85 105)"} fontSize="0.875rem" fontWeight={"600"} height={25}>{label}</Typography>
             <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="de">
-                <MobileTimePicker
+                <TimePicker
                     slots={{
                         openPickerIcon: () => {
                             return null;
@@ -33,6 +33,11 @@ const TimePickerField = ({
                     }}
                     open={open}
                     onClose={() => setOpen(false)}
+                    viewRenderers={{
+                        hours: renderTimeViewClock,
+                        minutes: renderTimeViewClock,
+                        seconds: renderTimeViewClock,
+                    }}
                     {...other}
                 />
             </LocalizationProvider>
