@@ -7,7 +7,8 @@ const CardSummaryBoardingTicket = ({
     isLoading = true,
     sidebarExpanded = false,
     cashBankSrc = "",
-    serviceFeeSrc = ""
+    serviceFeeSrc = "",
+    mdrSrc = ""
 }) => {
     return (
         <Box
@@ -39,7 +40,7 @@ const CardSummaryBoardingTicket = ({
                 amount={summaryDetail.mdr}
                 isCurrency={true}
                 sidebarExpanded={sidebarExpanded}
-                src={serviceFeeSrc}
+                src={mdrSrc}
             />
         </Box>
     );

@@ -26,7 +26,8 @@ const LaporanShiftPeriod = ({
     buttomFilter = "Search",
     sidebarExpanded = false,
     cashBankSrc = "",
-    serviceFeeSrc = ""
+    serviceFeeSrc = "",
+    mdrSrc=""
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
     const [limit, setLimit] = useState(25);
@@ -569,6 +570,7 @@ const LaporanShiftPeriod = ({
                                         sidebarExpanded={sidebarExpanded}
                                         cashBankSrc={cashBankSrc}
                                         serviceFeeSrc={serviceFeeSrc}
+                                        mdrSrc={mdrSrc}
                                     />
                                 </Stack>
                                 <Box sx={{ width: "100%" }}>
