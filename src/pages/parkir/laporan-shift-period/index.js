@@ -8,7 +8,7 @@ import FilterMessageNote from "../../../components/filter-message-note";
 import CustomButton from "../../../components/custom-button";
 import InputField from "../../../components/text-field";
 import DatePickerField from "../../../components/datepicker-field";
-import { dateFormatWithTime } from "../../../utils/dateformat";
+import { dateFormat, dateFormatWithTime } from "../../../utils/dateformat";
 import { getSummaryTransactionShiftPeriod, getTransactionShiftPeriod } from "../../../services/parkir/transaction";
 import { thousandSeparator } from "../../../utils/thousand-separator";
 import TimePickerField from "../../../components/timepicker-field";
@@ -27,7 +27,7 @@ const LaporanShiftPeriod = ({
     sidebarExpanded = false,
     cashBankSrc = "",
     serviceFeeSrc = "",
-    mdrSrc=""
+    mdrSrc = ""
 }) => {
     const [merchantOption, setMerchantOption] = useState([])
     const [limit, setLimit] = useState(25);
@@ -212,7 +212,7 @@ const LaporanShiftPeriod = ({
         } else if (header.value === "docNo") {
             return <span>{item.docNo}</span>;
         } else if (header.value === "docDate") {
-            return <span>{item.docDate}</span>;
+            return <span>{dateFormat(item.docDate)}</span>;
         } else if (header.value === "extDocNo") {
             return <span>{item.extDocNo}</span>;
         } else if (header.value === "ouCode") {
