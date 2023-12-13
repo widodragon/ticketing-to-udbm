@@ -128,7 +128,7 @@ const MemberForm = ({
                     placeholder="Choose Member Type"
                     required={true}
                     sx={{ width: "100%", fontSize: "16px" }}
-                    data={["FREEPASS", "MEMBER", "SPECIAL MEMBER"]}
+                    data={["FREEPASS", "MEMBER", "SPECIAL MEMBER", "MEMBER MULTI PRODUCT"]}
                     selectedValue={formik.values.typePartner}
                     setValue={(val) => formik.setFieldValue("typePartner", val)}
                     isError={formik.touched.typePartner && formik.errors.typePartner}
