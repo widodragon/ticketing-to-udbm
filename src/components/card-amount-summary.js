@@ -50,7 +50,7 @@ const CardAmountSummary = ({
               borderRadius: 3,
             }}
           >
-            <CustomIcon color="#3875CA" size={30} src={src} rotate={rotate} />
+            <CustomIcon color="#3875CA" size={30} icon={src} rotate={rotate} />
           </Avatar>
         </Box>
         <Box>

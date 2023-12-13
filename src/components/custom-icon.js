@@ -6,22 +6,24 @@ const CustomIcon = ({
     disabled = false,
     color = "white",
     size = "30px",
-    src = process.env.PUBLIC_URL + "/images/UDB_Icon_Cash Bank.svg",
+    icon = process.env.PUBLIC_URL + "/images/UDB_Icon_Cash Bank.svg",
     style = {},
     rotate = 0,
 }) => {
     return (
         <Box sx={{
-            color: "white"
+            "excelIcon": {
+                color: "white"
+            }
         }}>
-            <img
-                src={src}
-                style={{
-                    width: size,
-                    height: size,
-                    color: color,
-                    transform: `rotate(${rotate}deg)`,
-                    ...style
+            <ReactSVG
+                src={icon}
+                style={{}}
+                beforeInjection={(svg) => {
+                    svg.setAttribute(
+                        "style",
+                        `width: ${size}; height: ${size}; fill: ${color}; ${style} transform: rotate(${rotate}deg);`
+                    );
                 }}
             />
         </Box>
