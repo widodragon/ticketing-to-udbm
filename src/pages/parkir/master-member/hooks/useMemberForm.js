@@ -72,7 +72,7 @@ const UseMemberForm = ({
             "firstName": values.firstName,
             "lastName": values.lastName,
             "roleType": values.roleType || "",
-            "typePartner": values.typePartner,
+            "typePartner": values.typePartner ? values.typePartner.value : "",
             "phoneNumber": values.phoneNumber,
             "registeredType": values.registeredType.value,
             "email": values.email,

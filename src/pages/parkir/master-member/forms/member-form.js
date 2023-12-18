@@ -7,7 +7,7 @@ import CustomButton from "../../../../components/custom-button";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SaveIcon from '@mui/icons-material/Save';
 import UseMemberForm from "../hooks/useMemberForm";
-import { getComboList } from "../../../../services/parkir/combo"
+import { getComboList, getMemberTypeList } from "../../../../services/parkir/combo"
 import { getProductPolicyList } from "../../../../services/parkir/product-policy"
 const MemberForm = ({
     onOpen = () => { },
@@ -24,6 +24,24 @@ const MemberForm = ({
     });
     const [roleList, setRoleList] = useState([])
     const [productList, setProductList] = useState([]);
+    const [memberType, setMemberType] = useState([]);
+
+    useEffect(() => {
+        getMemberTypeList().then(async (res) => {
+            if (res.result) {
+                setMemberType(res.result.map((item) => {
+                    return {
+                        ...item,
+                        label: item.comboName,
+                        value: item.comboCode
+                    }
+                }))
+            }
+        }).catch((e) => {
+            setMemberType([])
+            notify(JSON.stringify(e), "error");
+        })
+    }, [])
 
     useEffect(() => {
         let roleListOption = ["GENERAL"]
@@ -128,7 +146,7 @@ const MemberForm = ({
                     placeholder="Choose Member Type"
                     required={true}
                     sx={{ width: "100%", fontSize: "16px" }}
-                    data={["FREEPASS", "MEMBER", "SPECIAL MEMBER", "MEMBER MULTI PRODUCT"]}
+                    data={memberType}
                     selectedValue={formik.values.typePartner}
                     setValue={(val) => formik.setFieldValue("typePartner", val)}
                     isError={formik.touched.typePartner && formik.errors.typePartner}
