@@ -32,6 +32,7 @@ const MasterMember = ({
     const [ouCodeSelected, setOuCodeSelected] = useState([]);
     const [count, setCount] = useState(-99);
     const [countLoading, setCountLoading] = useState(false);
+    const [allOutletCodeList, setAllOutletCodeList] = useState([])
     const [disableNext, setDisableNext] = useState(false);
     const [openForm, setOpenForm] = useState(false);
     const [keyword, setKeyword] = useState("")
@@ -239,6 +240,7 @@ const MasterMember = ({
         merchantOption.map((item) => {
             ouCodeArr.push(item.value)
         })
+        setAllOutletCodeList(ouCodeArr);
         handleGetListMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr, keyword: keyword })
     }
 
@@ -320,7 +322,7 @@ const MasterMember = ({
                                     onClick={() => {
                                         setLimit(25)
                                         setOffset(0)
-                                        handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : null, keyword: keyword })
+                                        handleGetListMember({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : allOutletCodeList, keyword: keyword })
                                     }}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}

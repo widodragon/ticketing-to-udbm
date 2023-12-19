@@ -29,6 +29,7 @@ const MasterInquiryMember = ({
     const [ouCodeSelected, setOuCodeSelected] = useState([]);
     const [count, setCount] = useState(-99);
     const [countLoading, setCountLoading] = useState(false);
+    const [allOutletCodeList, setAllOutletCodeList] = useState([])
     const [disableNext, setDisableNext] = useState(false);
     const [data, setData] = useState([]);
     const header = [
@@ -251,6 +252,7 @@ const MasterInquiryMember = ({
             merchantOption.map((item) => {
                 ouCodeArr.push(item.value)
             })
+            setAllOutletCodeList(ouCodeArr);
             handleGetListInquiryMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr, status: status.value || "" })
         }
     }, [merchantOption]);
@@ -324,7 +326,7 @@ const MasterInquiryMember = ({
                                     onClick={() => {
                                         setLimit(25)
                                         setOffset(0)
-                                        handleGetListInquiryMember({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : null, status: status ? status.value : "" })
+                                        handleGetListInquiryMember({ limitDt: 25, offsetDt: 0, ouCodeValue: ouCode ? [ouCode.value] : allOutletCodeList, status: status ? status.value : "" })
                                     }}
                                     startIcon={<SearchIcon size="14px" />}
                                     name={buttomFilter}

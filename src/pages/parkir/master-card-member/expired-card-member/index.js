@@ -30,6 +30,7 @@ const MasterExpiredCardMember = ({
     const [ouCodeSelected, setOuCodeSelected] = useState([]);
     const [count, setCount] = useState(-99);
     const [countLoading, setCountLoading] = useState(false);
+    const [allOutletCodeList, setAllOutletCodeList] = useState([])
     const [disableNext, setDisableNext] = useState(false);
     const [filterForm, setFilterForm] = useState({
         ouCode: "",
@@ -312,6 +313,7 @@ const MasterExpiredCardMember = ({
         merchantOption.map((item) => {
             ouCodeArr.push(item.value)
         })
+        setAllOutletCodeList(ouCodeArr);
         handleGetListCardMember({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr, filter: filterForm })
     }
 
@@ -441,7 +443,7 @@ const MasterExpiredCardMember = ({
                             onClick={() => {
                                 setLimit(25)
                                 setOffset(0)
-                                handleGetListCardMember({ limitDt: 25, offsetDt: 0, ouCodeValue: filterForm.ouCode ? [filterForm.ouCode.value] : null, filter: filterForm })
+                                handleGetListCardMember({ limitDt: 25, offsetDt: 0, ouCodeValue: filterForm.ouCode ? [filterForm.ouCode.value] : allOutletCodeList, filter: filterForm })
                             }}
                             startIcon={<SearchIcon size="14px" />}
                             name={buttomFilter}
