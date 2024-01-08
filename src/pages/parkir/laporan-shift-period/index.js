@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Card, CardContent, Stack, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material"
 import SelectField from "../../../components/select-field"
 import SearchIcon from '@mui/icons-material/Search';
 import CustomTable from "../../../components/custom-table";
@@ -9,12 +9,14 @@ import CustomButton from "../../../components/custom-button";
 import InputField from "../../../components/text-field";
 import DatePickerField from "../../../components/datepicker-field";
 import { dateFormat, dateFormatWithTime } from "../../../utils/dateformat";
-import { getSummaryTransactionShiftPeriod, getTransactionShiftPeriod } from "../../../services/parkir/transaction";
+import { getSummaryTransactionShiftPeriod, getTransactionDetailById, getTransactionShiftPeriod } from "../../../services/parkir/transaction";
 import { thousandSeparator } from "../../../utils/thousand-separator";
 import TimePickerField from "../../../components/timepicker-field";
 import moment from "moment";
 import { getComboPaymentMethodList } from "../../../services/parkir/combo";
 import CardSummaryBoardingTicket from "./components/card-summary-boarding-ticket";
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import DetailDialog from "./components/detail-dialog";
 
 const LaporanShiftPeriod = ({
     label = "Laporan Transaksi Parkir",
@@ -39,6 +41,8 @@ const LaporanShiftPeriod = ({
     const [allOutletCodeList, setAllOutletCodeList] = useState([])
     const [paymentMethodList, setPaymentMethodList] = useState([]);
     const [detail, setDetail] = useState({});
+    const [open, setOpen] = useState(false);
+    const [detailTransaction, setDetailTransaction] = useState(null);
     const [loadingDetail, setLoadingDetail] = useState(false);
     const [filterForm, setFilterForm] = useState({
         ouCode: "",
@@ -54,9 +58,9 @@ const LaporanShiftPeriod = ({
     const [data, setData] = useState([]);
     const header = [
         {
-            title: "#",
-            value: "id",
-            align: "left",
+            title: "ACTION",
+            value: "action",
+            align: "center",
             width: "50px",
         },
         {
@@ -206,9 +210,12 @@ const LaporanShiftPeriod = ({
     ]
 
     const renderCell = (item, header, index) => {
-        if (header.value === "id") {
-            let page = (offset / limit) + 1
-            return <span>{(index + 1) + ((page - 1) * 10)}</span>;
+        if (header.value === "action") {
+            return (
+                <Button onClick={() => getDetailTransaction(item.id)}>
+                    <FormatListBulletedIcon sx={{ fontSize: "18px" }} />
+                </Button>
+            )
         } else if (header.value === "docNo") {
             return <span>{item.docNo}</span>;
         } else if (header.value === "docDate") {
@@ -244,7 +251,7 @@ const LaporanShiftPeriod = ({
         } else if (header.value === "mdr") {
             return <span>Rp{thousandSeparator(item.mdr)}</span>;
         } else if (header.value === "subTotal") {
-            return <span>Rp{thousandSeparator(item.subTotal)}</span>;
+            return <span>Rp{thousandSeparator(Number(item.grandTotal) - Number(item.serviceFee) - Number(item.mdr))}</span>;
         } else if (header.value === "username") {
             return <span>{item.username}</span>;
         } else if (header.value === "paymentMethod") {
@@ -389,6 +396,15 @@ const LaporanShiftPeriod = ({
         })
         setAllOutletCodeList(ouCodeArr);
         handleGetListTransaction({ limitDt: limit, offsetDt: 0, ouCodeValue: ouCodeArr, filter: filterForm })
+    }
+
+    const getDetailTransaction = (idDetail) => {
+        getTransactionDetailById(idDetail).then((res) => {
+            setOpen(true)
+            setDetailTransaction(res.result)
+        }).catch((e) => {
+            notify(e.message, "error");
+        })
     }
 
     return (
@@ -604,6 +620,13 @@ const LaporanShiftPeriod = ({
                     </Box>
                 </CardContent>
             </Card>
+            {
+                detailTransaction && <DetailDialog
+                    setOpen={setOpen}
+                    open={open}
+                    detail={detailTransaction}
+                />
+            }
         </Stack>
     )
 }

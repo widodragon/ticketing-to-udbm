@@ -14,12 +14,12 @@ import StatusLabel from "../../../components/status-label";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { dateFormatWithTime } from "../../../utils/dateformat";
-
+import {merchant_data} from "../../../data/merchant"
 const MasterMember = ({
     label = "Member",
     titleInfo = "To Display Specific Transactions, Use the Filters Above.",
     subTitleInfo = [],
-    merchantData = [],
+    merchantData = merchant_data,
     setLoading = () => { },
     notify = () => { },
     buttomFilter = "Search",

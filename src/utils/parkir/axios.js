@@ -61,8 +61,26 @@ const GET = async (path = "", data, headers = {}) => {
     return promise;
 }
 
+const GET_TRX = async (path = "", data, headers = {}) => {
+    let promise = new Promise((resolve, reject) => {
+        trx_instance.get(path, data, {
+            headers: {
+                ...headers
+            }
+        }).then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                resolve(res.data)
+            }
+        }).catch(async (error) => {
+            reject(error);
+        })
+    })
+    return promise;
+}
+
 export default {
     POST,
     POST_TRX,
-    GET
+    GET,
+    GET_TRX
 };

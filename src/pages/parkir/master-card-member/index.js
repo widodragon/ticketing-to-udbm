@@ -64,7 +64,7 @@ const CardMember = ({
                         aria-label="scrollable auto tabs example"
                     >
                         <Tab label="Member Card" />
-                        <Tab label="Expired Card Member" />
+                        <Tab label="Pre-Expired Card Member" />
                     </Tabs>
                 </CardContent>
                 <Box sx={{
